@@ -1,0 +1,149 @@
+.tours {
+    margin: 50px 0;
+}
+.btns {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+.tours_content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.tours_content h1 {
+    font-size: 58px;
+    font-family: "Comfortaa", sans-serif;
+}
+.tours_content h4{
+    font-size: 40px;
+    font-family: "Comfortaa", sans-serif;
+}
+.tours_content_text{
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+}
+.filters {
+    width: 250px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #aacae7;
+    color: white;
+    font-size: 18px;
+}
+.search_form {
+    width: 250px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #aacae7;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+.search_form input {
+    background: none;
+}
+.search_form input::placeholder {
+    color: white;
+    font-family: "Exo 2", sans-serif;
+    font-size: 18px;
+}
+.search_form button {
+    background: none;
+}
+.grid_tours {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 30px;
+    margin-top: 60px;
+}
+.card_tour {
+    width: 250px;
+    height: 300px;
+    border-radius: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card_tour img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.overlay_tours_card{
+    position: absolute;
+    height: 100%;
+    padding: 20px 33px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+    border-radius: 60px;
+    background: rgba(0, 0, 0, 0.529);
+    color: #fef5df;
+    opacity: 0;
+    font-family: "Comfortaa", sans-serif;
+    justify-content: center;
+}
+.card_tour:hover .overlay_tours_card {
+    opacity: 1;
+}
+.title_card {
+    position: absolute;
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 33px;
+    opacity: 1;
+    transition: opacity 0.9s;
+    color: #0b1957;
+    font-family: "Comfortaa", sans-serif;
+}
+.line {
+    width: 141px;
+    border: solid 1px #fef5df;
+}
+.card_about_tour {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 6px;
+}
+.card_about_tour h4 {
+    font-size: 20px;
+}
+.about_tour {
+    font-size: 18px;
+    line-height: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 17px;
+    transition: opacity 0.7s;
+}
+.btn_tour {
+    width: 172px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #0b1957;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.status {
+    font-weight: bold;
+    font-family: "Exo 2", sans-serif;
+}
+.link_btn {
+    color: white;
+}
+.btn_tour:hover{
+    cursor: pointer;
+}
+

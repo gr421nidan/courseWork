@@ -1,0 +1,155 @@
+/* Импорт других css-файлов */
+@import "home.css";
+@import "authRelatedPage.css";
+@import "adminGuids.css";
+@import "adminRegions.css";
+@import "adminHotels.css";
+@import "toursList.css";
+@import "userCabinet.css";
+@import "userFeedback.css";
+
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+  margin: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-weight: normal;
+}
+a {
+  text-decoration: none;
+  color: #0b1957;
+}
+.nav_admin a.active,
+.navigation a.active,
+.footer_nav a.active {
+  text-decoration: underline;
+}
+.container {
+  width: 1680px;
+  padding: 40px 0;
+  margin: 0 auto;
+}
+button {
+  font-family: "Exo 2", sans-serif;
+  cursor: pointer;
+}
+input,
+textarea,
+select {
+  font-family: "Exo 2", sans-serif;
+}
+#app {
+  background-color: #fff7eb;
+  color: #0b1957;
+  font-family: "Exo 2", sans-serif;
+  width: 100%;
+  min-height: 1050px;
+}
+
+.content {
+  margin: 0 122px;
+}
+.content-admin {
+  margin: 0 122px 0 405px;
+}
+.navigation {
+  width: 1436px;
+  height: 60px;
+  background-color: #aacae7;
+  position: fixed;
+  box-shadow: 5px 5px 10px rgba(11, 25, 87, 0.5);
+  display: flex;
+  border-radius: 20px;
+  padding: 0 25px;
+  z-index: 1000;
+}
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 400px;
+}
+.nav_authenticated {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 370px;
+}
+.nav_link {
+  display: flex;
+  gap: 80px;
+}
+
+.footer_container {
+  width: 100%;
+  background-color: #aacae7;
+  display: flex;
+  justify-content: center;
+  height: 235px;
+  padding: 0 142px;
+}
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.social_media_icons {
+  display: flex;
+  gap: 20px;
+}
+
+.footer_nav {
+  display: flex;
+  gap: 100px;
+}
+
+.nav_admin {
+  background-color: #aacae7;
+  min-height: 1050px;
+  width: 350px;
+  padding: 100px 78px;
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 24px;
+}
+
+.nav_admin_logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-family: "Comfortaa", sans-serif;
+}
+.nav_admin_logo img {
+  width: 120px;
+}
+section {
+  height: 1050px;
+}
+
+.show-message {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #aacae7;
+  color: #0b1957;
+  padding: 10px;
+  border-radius: 30px;
+  font-size: 24px;
+  border: 1px #0b1957 solid;
+  text-align: center;
+}

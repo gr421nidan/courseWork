@@ -1,0 +1,107 @@
+.feedback_create_block {
+  margin: 50px 0;
+  width: 728px;
+  height: 869px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  border-radius: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 53px;
+  padding: 35px 39px;
+  font-size: 24px;
+}
+.feedback_create_content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.comment_feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.comment_feedback textarea {
+  min-width: 650px;
+  min-height: 160px;
+  max-width: 650px;
+  max-height: 160px;
+  border-radius: 30px;
+  padding: 25px;
+}
+.comment_feedback textarea::placeholder {
+  color: #0b1957;
+  font-size: 18px;
+}
+
+.feedback_create_content form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.constraint {
+  font-size: 18px;
+}
+.feedback_create_block a {
+  text-decoration: underline;
+}
+.feedback_create_block a:hover {
+  color: #aacae7;
+}
+.warning_block {
+  background-color: #aacae7;
+  color: white;
+  width: 650px;
+  height: 80px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  border-radius: 60px;
+  justify-content: center;
+}
+.btn_create_feedback {
+  width: 650px;
+  height: 60px;
+  border-radius: 30px;
+    font-size: 24px;
+    color: white;
+    background-color: #AACAE7;
+
+}
+.rating_feedback {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+/*Рейтинг ввиде звёзд*/
+.rating_area:not(:checked) > input {
+  display: none;
+}
+.rating_area:not(:checked) > label {
+  float: right;
+  width: 42px;
+  padding: 0;
+  cursor: pointer;
+  font-size: 32px;
+  line-height: 32px;
+  color: lightgrey;
+  text-shadow: 1px 1px #bbb;
+}
+.rating_area:not(:checked) > label:before {
+  content: "★";
+}
+.rating_area > input:checked ~ label {
+  color: gold;
+  text-shadow: 1px 1px #c60;
+}
+.rating_area:not(:checked) > label:hover,
+.rating_area:not(:checked) > label:hover ~ label {
+  color: gold;
+}
+.rating_area > input:checked + label:hover,
+.rating_area > input:checked + label:hover ~ label,
+.rating_area > input:checked ~ label:hover,
+.rating_area > input:checked ~ label:hover ~ label,
+.rating_area > label:hover ~ input:checked ~ label {
+  color: gold;
+  text-shadow: 1px 1px goldenrod;
+}

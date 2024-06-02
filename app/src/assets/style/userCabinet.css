@@ -1,0 +1,151 @@
+.cabinet {
+  margin: 50px 0;
+}
+a.active {
+  text-decoration: underline;
+}
+.cabinet h1 {
+  font-size: 58px;
+  font-family: "Comfortaa", sans-serif;
+}
+.cabinet_head_content {
+  font-size: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.cabinet_head_content div {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.cabinet_head_content div a:hover {
+  color: #aacae7;
+}
+.btn_cabinet_email {
+  color: white;
+  background-color: #aacae7;
+  border-radius: 60px;
+  width: 400px;
+  height: 60px;
+  font-size: 18px;
+}
+.line_element_cabinet {
+  height: 1px;
+  width: 1436px;
+  background-color: #0b1957;
+}
+.cabinet_content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.profile {
+  margin-top: 50px;
+}
+.profile_block {
+  width: 690px;
+  height: 610px;
+  border-radius: 60px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 55px 70px;
+  gap: 30px;
+}
+.profile_block h3 {
+  text-decoration: underline;
+  font-size: 40px;
+}
+.form_profile {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #0b1957;
+  font-size: 24px;
+}
+.form_profile div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.form_profile div input {
+  width: 550px;
+  height: 60px;
+  border-radius: 10px;
+  padding-left: 20px;
+  font-size: 18px;
+}
+.form_profile button {
+  width: 550px;
+  height: 60px;
+  border-radius: 10px;
+  background-color: #aacae7;
+  color: #ffffff;
+  font-size: 24px;
+}
+.my_tours {
+  margin-top: 70px;
+}
+.my_tours_block {
+  display: flex;
+  flex-direction: column;
+  width: 1020px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  border-radius: 60px;
+  padding: 55px 70px;
+  gap: 30px;
+}
+.my_tours_block h2 {
+  font-size: 40px;
+  text-decoration: underline;
+}
+.my_application {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #aacae7;
+  border-radius: 30px;
+  padding: 20px 30px;
+}
+.my_application_text {
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.my_application_text p:nth-of-type(1) {
+  font-size: 24px;
+}
+.my_application_text h3 {
+  font-size: 40px;
+  font-family: "Comfortaa", sans-serif;
+}
+.my_application_info {
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.my_application_info div {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.circle_application {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  text-align: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 15px;
+}
+.my_application_info button {
+  height: 45px;
+  width: 190px;
+  border-radius: 10px;
+  font-size: 18px;
+}
