@@ -2,7 +2,7 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button type="submit">Выход</button>
+        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Отели</h1>
           <span v-if="!verifiedEmail">
@@ -16,14 +16,13 @@
       </div>
       <div class="hotels_content">
         <div class="list_hotels">
-          <div v-if="hotels.length === 0">
-            <p>Отели отсутствуют!</p>
-          </div>
-          <ul>
-            <li v-for="hotel in hotels" :key="hotel.id">
-              {{ hotel.name }}
-            </li>
-          </ul>
+          <li
+            v-for="hotel in hotels"
+            :key="hotel.id"
+            @click="inHotel(hotel.id)"
+          >
+            {{ hotel.name }}
+          </li>
         </div>
         <div class="hotels_create_block">
           <form @submit.prevent="createHotels" class="hotels_create">
@@ -100,12 +99,12 @@ export default {
       this.formData.photo = event.target.files[0];
     },
     async getHotels() {
-      const url = "http://127.0.0.1:8000/api/guide";
+      const token = this.$store.state.token;
+      const url = "http://127.0.0.1:8000/api/housing";
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.ok) {
@@ -155,6 +154,15 @@ export default {
         }, 3000);
         console.error("Ошибка:", this.error);
       }
+    },
+    inHotel(id) {
+      this.$router.push({ name: "AboutHotel", params: { id } });
+    },
+    logout() {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("id_role");
+      this.$router.push("/");
+      window.location.reload();
     },
   },
 };

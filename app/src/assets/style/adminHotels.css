@@ -1,36 +1,79 @@
-.hotels_content{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.hotels_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .hotels_create_block {
-    width: 445px;
-    height: 641px;
-    border-radius: 60px;
-    box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
-    padding: 23px 30px;
-    display: flex;
-    justify-content: center;
+  width: 445px;
+  height: 641px;
+  border-radius: 60px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  padding: 23px 30px;
+  display: flex;
+  justify-content: center;
 }
-.hotels_create{
-    display: flex;
-    flex-direction: column;
-    gap: 38px;
-    align-items: center;
+.hotels_create {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  align-items: center;
 }
-.hotels_create h2{
-    font-size: 40px;
-    font-family: "Comfortaa", sans-serif;
-    text-align: center;
+.hotels_create h2 {
+  font-size: 40px;
+  font-family: "Comfortaa", sans-serif;
+  text-align: center;
 }
-.hotels_create div{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.hotels_create div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
-.list_hotels{
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    font-size: 24px;
+.list_hotels {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  font-size: 24px;
+}
+.list_hotels li:hover {
+  color: #aacae7;
+  cursor: pointer;
+}
+/*Конкретный отель*/
+
+.hotel_info_text {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 525px;
+  font-size: 24px;
+}
+
+.hotel_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.hotel_photos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+.hotel_photos img {
+  width: 600px;
+  height: 500px;
+  border-radius: 60px;
+}
+.arrows_row img {
+  width: 50px;
+  height: 50px;
+}
+.arrows_row {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+.arrows_row > img:nth-child(2) {
+  transform: rotate(180deg);
 }

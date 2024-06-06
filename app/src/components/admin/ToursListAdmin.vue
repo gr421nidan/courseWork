@@ -2,7 +2,7 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button type="submit">Выход</button>
+        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Туры</h1>
           <span v-if="!verifiedEmail">
@@ -16,14 +16,9 @@
       </div>
       <div class="tours_content">
         <div class="list_tours">
-          <div v-if="tours.length === 0">
-            <p>Туры отсутствуют!</p>
-          </div>
-          <ul>
-            <li v-for="tour in tours" :key="tour.id">
-              {{ tour.name }}
-            </li>
-          </ul>
+          <li v-for="tour in tours" :key="tour.id">
+            {{ tour.name }}
+          </li>
         </div>
         <div class="tours_create_block">
           <form @submit.prevent="createTours" class="tours_create">
@@ -178,6 +173,12 @@ export default {
         }, 3000);
         console.error("Ошибка:", this.error);
       }
+    },
+    logout() {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("id_role");
+      this.$router.push("/");
+      window.location.reload();
     },
   },
 };

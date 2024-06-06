@@ -2,24 +2,24 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import UserRegistrations from "@/components/guest/UserRegistrations.vue";
 import UserAuthorization from "@/components/guest/UserAuthorization.vue";
-import PasswordRecovery from "@/components/user/PasswordRecovery.vue";
+import PasswordRecovery from "@/components/guest/PasswordRecovery.vue";
 import UserFeedback from "@/components/user/UserFeedback.vue";
 import AboutTour from "@/components/guest/AboutTour.vue";
 import ToursListInRegions from "@/components/guest/ToursListInRegion.vue";
 import UserCabinet from "@/components/user/UserCabinet.vue";
 import BookingTour from "@/components/user/BookingTour.vue";
-import PasswordReset from "@/components/user/PasswordReset.vue";
+import PasswordReset from "@/components/guest/PasswordReset.vue";
 import ToursListAdmin from "@/components/admin/ToursListAdmin.vue";
 import AboutTourAdmin from "@/components/admin/AboutTourAdmin.vue";
 import RegionsList from "@/components/admin/RegionsList.vue";
 import AboutGuid from "@/components/admin/AboutGuid.vue";
 import HotelsList from "@/components/admin/HotelsList.vue";
-import AboutHotel from "@/components/admin/AboutHotel.vue";
 import BookingToursList from "@/components/admin/BookingToursList.vue";
 import AboutBookingTour from "@/components/admin/AboutBookingTour.vue";
 import GuidsList from "@/components/admin/GuidsList.vue";
 import ToursList from "@/components/guest/ToursList.vue";
 import store from "../store";
+import AboutHotel from "@/components/admin/AboutHotel.vue";
 const ifNotAuthenticated = (to, from, next) => {
   if (!store.getters.isAuthenticated) {
     next();
@@ -78,9 +78,10 @@ const routes = [
     component: ToursList,
   },
   {
-    path: "/tour/id",
+    path: "/tour/:id",
     name: "about",
     component: AboutTour,
+    props: (route) => ({ id: Number(route.params.id) }),
   },
   {
     path: "/feedback/create",
@@ -89,12 +90,13 @@ const routes = [
     beforeEnter: ifAuthenticated,
   },
   {
-    path: "/region/id",
+    path: "/region/:id",
     name: "tourInRegion",
     component: ToursListInRegions,
+    props: (route) => ({ id: Number(route.params.id) }),
   },
   {
-    path: "/user/id",
+    path: "/user/me",
     name: "cabinet",
     component: UserCabinet,
     beforeEnter: ifAuthenticated,
@@ -130,10 +132,11 @@ const routes = [
     beforeEnter: ifAdmin,
   },
   {
-    path: "/admin/guids/about",
-    name: "guids-about",
+    path: "/admin/guids/:id",
+    name: "AboutGuide",
     component: AboutGuid,
     beforeEnter: ifAdmin,
+    props: (route) => ({ id: Number(route.params.id) }),
   },
   {
     path: "/admin/hotels",
@@ -142,10 +145,11 @@ const routes = [
     beforeEnter: ifAdmin,
   },
   {
-    path: "/admin/hotels/about",
-    name: "hotels-about",
+    path: "/admin/hotels/:id",
+    name: "AboutHotel",
     component: AboutHotel,
     beforeEnter: ifAdmin,
+    props: (route) => ({ id: Number(route.params.id) }),
   },
   {
     path: "/admin/booking/tours",

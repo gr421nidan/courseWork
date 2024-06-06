@@ -1,10 +1,14 @@
-.list_guids{
+.list_guids {
   display: flex;
   flex-direction: column;
   gap: 25px;
   font-size: 24px;
 }
-.guids_content{
+.list_guids li:hover {
+  cursor: pointer;
+  color: #aacae7;
+}
+.guids_content {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -18,7 +22,7 @@
   display: flex;
   justify-content: center;
 }
-.textarea_form{
+.textarea_form {
   min-width: 400px;
   min-height: 100px;
   max-width: 400px;
@@ -31,27 +35,99 @@
   font-size: 18px;
 }
 
-.guids_create{
+.guids_create {
   display: flex;
   flex-direction: column;
   gap: 38px;
   align-items: center;
 }
-.guids_create h2{
+.guids_create h2 {
   font-size: 40px;
   font-family: "Comfortaa", sans-serif;
   text-align: center;
 }
-.guids_create div{
+.guids_create div {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-.button_admin_pages{
+.button_admin_pages {
   width: 300px;
   height: 60px;
-  background-color: #AACAE7;
+  background-color: #aacae7;
   border-radius: 60px;
   color: white;
   font-size: 18px;
+}
+/*Страница конкретного гида*/
+.guids_update_block {
+  width: 445px;
+  height: 370px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  padding: 23px 30px;
+  display: flex;
+  justify-content: center;
+}
+.card_guid {
+  width: 645px;
+  height: 370px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  border-radius: 30px;
+  padding:30px 25px ;
+}
+.card_guid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.card_guid img {
+  height: 310px;
+  width: 250px;
+  border-radius: 60px;
+
+}
+.card_guid_text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 300px;
+}
+.card_guid_text h3 {
+  font-size: 40px;
+  font-family: "Comfortaa", sans-serif;
+}
+.card_guid_text p {
+  font-size: 18px;
+}
+.delete_button{
+  color: white;
+  height: 60px;
+  width: 200px;
+  border-radius: 60px;
+  background-color: #AACAE7;
+  font-size: 18px;
+}
+.card_guid_content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.guid_content{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.guid_content_about{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.guid_content_tours{
+  display: flex;
+  flex-direction: column;
+}
+.guid_content_tours h3{
+  font-size: 40px;
+  font-family: "Comfortaa", sans-serif;
 }

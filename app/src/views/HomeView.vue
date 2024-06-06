@@ -29,23 +29,23 @@
         <div class="card" v-for="region in regions" :key="region.id">
           <img alt="photo_region" :src="region.photo" />
           <div class="title_region">
-            <h4>{{ region.name }}</h4>
+            <h4 @click="inRegion(region.id)">{{ region.name }}</h4>
           </div>
         </div>
       </div>
       <div class="line_element"></div>
     </section>
-    <section class="guids content">
+    <section id="guids" class="content">
       <h1>Наши экскурсоводы</h1>
-      <div class="grid_guids" v-for="guid in guids" :key="guid.id">
-        <div class="card">
-          <img alt="photo_guid" :src="getPhotoUrl(guid.photo)" />
+      <div class="grid_guids">
+        <div class="card" v-for="guide in guids" :key="guide.id">
+          <img alt="photo_guid" :src="guide.guide.photo" />
           <div class="overlay">
             <div class="card_about">
-              <h3>guid.name</h3>
+              <h3>{{ guide.guide.name }} {{ guide.guide.surname }}</h3>
               <div class="line"></div>
-              <p>{{ guid.description }}</p>
-              <p>{{ guid.region }}</p>
+              <p>{{ guide.guide.description }}</p>
+              <p>{{ guide.region }}</p>
             </div>
           </div>
         </div>
@@ -141,7 +141,7 @@
   <div class="container" v-if="$store.getters.isAdmin">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button type="submit">Выход</button>
+        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Личный кабинет</h1>
           <span v-if="!verifiedEmail">
@@ -155,7 +155,7 @@
       </div>
       <div class="profile_block">
         <h3>Персональные данные</h3>
-        <form class="form_profile" v-if="user">
+        <form class="form_profile" v-for="user in users" :key="user.id">
           <div>
             <label>Фамилия</label>
             <input placeholder="{{ user.surname }}" />
@@ -178,28 +178,33 @@
 import { getRegions } from "/src/mixins/getRegions";
 import { getGuids } from "/src/mixins/getGuids";
 import { getUserProfile } from "/src/mixins/getUserProfile";
-import { logout } from "/src/mixins/logout";
 
 export default {
-  mixins: [getRegions, getGuids, getUserProfile, logout],
+  mixins: [getRegions, getGuids, getUserProfile],
   data() {
     return {
       regions: [],
       guids: [],
       error: "",
       message: "",
+      users: [],
     };
   },
   methods: {
-    getPhotoUrl(photo) {
-      return `${process.env.VUE_APP_BASE_URL}/photos/${photo}`;
+    inRegion(id) {
+      this.$router.push({ name: "tourInRegion", params: { id } });
+    },
+    logout() {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("id_role");
+      this.$router.push("/");
+      window.location.reload();
     },
   },
   created() {
     this.getRegions();
     this.getGuids();
-    this.getUserProfile(user);
-    this.logout();
+    this.getUserProfile();
   },
 };
 </script>

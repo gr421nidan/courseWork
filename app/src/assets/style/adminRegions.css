@@ -3,6 +3,12 @@
     flex-direction: column;
     gap: 25px;
     font-size: 24px;
+    width: 500px;
+    justify-content: space-between;
+}
+.list_regions li{
+    display: flex;
+    justify-content: space-between;
 }
 .list_regions button{
     background-color: #AACAE7;

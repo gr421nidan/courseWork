@@ -2,7 +2,7 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button type="submit">Выход</button>
+        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Регионы</h1>
           <span v-if="!verifiedEmail">
@@ -16,15 +16,10 @@
       </div>
       <div class="regions_content">
         <div class="list_regions">
-          <div v-if="regions.length === 0">
-            <p>Регионы отсутствуют!</p>
-          </div>
-          <ul>
-            <li v-for="region in regions" :key="region.id">
-              {{ region.name }}
-              <button @click="deleteRegion(region.id)">Удалить</button>
-            </li>
-          </ul>
+          <li v-for="region in regions" :key="region.id">
+            {{ region.name }}
+            <button @click="deleteRegion(region.id)">Удалить</button>
+          </li>
         </div>
         <div class="regions_create_block">
           <form @submit.prevent="createRegions" class="regions_create">
@@ -58,7 +53,7 @@ export default {
     return {
       formData: {
         name: "",
-        photo: "",
+        photo: null,
       },
       regions: [],
       showBlock: false,
@@ -75,17 +70,17 @@ export default {
       this.formData.photo = event.target.files[0];
     },
     async createRegions() {
-      const region = {
-        name: this.formData.name,
-        photo: this.formData.photo,
-      };
-      const url = "http://127.0.0.1:8000/api/guide/create";
+      const formData = new FormData();
+      formData.append("name", this.formData.name);
+      formData.append("photo", this.formData.photo);
+      const token = this.$store.state.token;
+      const url = "http://127.0.0.1:8000/api/region/create";
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(region),
+        body: formData,
       });
       const result = await response.json();
       if (response.ok) {
@@ -94,10 +89,9 @@ export default {
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-        console.error("Сообщение:", this.message);
       } else {
         this.formData.name = "";
-        this.formData.photo = "";
+        this.formData.photo = null;
         this.error = result.error;
         this.showBlock = true;
 
@@ -132,6 +126,12 @@ export default {
         }, 3000);
         console.error("Ошибка:", this.error);
       }
+    },
+    logout() {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("id_role");
+      this.$router.push("/");
+      window.location.reload();
     },
   },
 };

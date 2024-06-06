@@ -18,7 +18,7 @@
           <p>Туры отсутствуют!</p>
         </div>
         <div class="grid_tours" v-for="tour in tours" :key="tour.id">
-          <div class="card_tour">
+          <div @click="inTour(tour.id)" class="card_tour">
             <img alt="photo_tour" :src="tour.image" />
             <div class="title_card">
               <h4>{{ tour.name }}</h4>
@@ -56,6 +56,11 @@ export default {
       tours: [],
       showBlock: false,
     };
+  },
+  methods: {
+    inTour(id) {
+      this.$router.push({ name: "AboutHotel", params: { id } });
+    },
   },
   created() {
     this.getTours();

@@ -39,9 +39,9 @@
         >
       </nav>
     </span>
-    <div class="container" v-if="!$store.getters.isAuthenticated">
+    <div class="container" v-if="!$store.getters.isAdmin">
       <nav class="navigation content">
-        <span class="nav">
+        <span class="nav" v-if="!$store.getters.isAuthenticated">
           <img
             class="logo_nav"
             alt="logo"
@@ -78,10 +78,7 @@
             <router-link to="/login">Вход</router-link>
           </div>
         </span>
-        <span
-          class="nav_authenticated"
-          v-if="!$store.getters.isAdmin && $store.getters.isAuthenticated"
-        >
+        <span class="nav_authenticated" v-if="$store.getters.isAuthenticated">
           <img
             class="logo_nav"
             alt="logo"
@@ -92,8 +89,8 @@
               >Главная</router-link
             >
             <router-link
-              to="/user/id"
-              :class="{ active: $route.path === '/user/id' }"
+              to="/user/me"
+              :class="{ active: $route.path === '/user/me' }"
               >Личный кабинет</router-link
             >
             <router-link
@@ -147,7 +144,7 @@
       </span>
       <span class="footer_nav" v-if="$store.getters.isAuthenticated">
         <router-link to="/">Главная</router-link>
-        <router-link to="/user/id">Личный кабинет</router-link>
+        <router-link to="/user/me">Личный кабинет</router-link>
         <router-link to="/tours">Туры</router-link>
         <a href="#" @click.prevent="scrollToSection('regions')">Регионы</a>
         <a href="#" @click.prevent="scrollToSection('about')">О нас</a>
@@ -164,9 +161,7 @@
 
 <style></style>
 <script>
-import { logout } from "/src/mixins/logout";
 export default {
-  mixins: [logout],
   data() {
     return {
       isAuthenticated: false,
@@ -196,9 +191,12 @@ export default {
         section.scrollIntoView({ behavior: "smooth" });
       }
     },
-  },
-  created() {
-    this.logout();
+    logout() {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("id_role");
+      this.$router.push("/");
+      window.location.reload();
+    },
   },
 };
 </script>

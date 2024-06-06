@@ -2,9 +2,6 @@ export const getGuids = {
   data() {
     return {
       guids: [],
-      regions: [],
-      showBlock: false,
-      verifiedEmail: false,
       error: "",
       message: "",
     };
@@ -17,12 +14,10 @@ export const getGuids = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
       });
       if (response.ok) {
-        const result = await response.json();
-        this.guids = result.data;
+        this.guids = await response.json();
       } else {
         this.error = "Ошибка";
         console.error(this.error);

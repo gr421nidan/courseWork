@@ -2,7 +2,7 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button type="submit">Выход</button>
+        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Экскурсоводы</h1>
           <span v-if="!verifiedEmail">
@@ -16,14 +16,13 @@
       </div>
       <div class="guids_content">
         <div class="list_guids">
-          <div v-if="guids.length === 0">
-            <p>Экскурсоводы отсутствуют!</p>
-          </div>
-          <ul>
-            <li v-for="guid in guids" :key="guid.id">
-              {{ guid.name }} {{ guid.surname }}
-            </li>
-          </ul>
+          <li
+            v-for="guide in guids"
+            :key="guide.guide.id"
+            @click="inGuide(guide.guide.id)"
+          >
+            {{ guide.guide.name }} {{ guide.guide.surname }}
+          </li>
         </div>
         <div class="guids_create_block">
           <form @submit.prevent="createGuids" class="guids_create">
@@ -74,6 +73,7 @@
 <script>
 import { getRegions } from "/src/mixins/getRegions";
 import { getGuids } from "/src/mixins/getGuids";
+
 export default {
   mixins: [getRegions, getGuids],
   data() {
@@ -102,35 +102,40 @@ export default {
       this.formData.photo = event.target.files[0];
     },
     async createGuids() {
-      const guid = {
-        name: this.formData.name,
-        surname: this.formData.surname,
-        description: this.formData.description,
-        photo: this.formData.photo,
-        id_region: this.formData.id_region,
-      };
+      if (!this.formData.photo) {
+        this.message = "Пожалуйста, выберите фото.";
+        return;
+      }
+      const formData = new FormData();
+      formData.append("name", this.formData.name);
+      formData.append("surname", this.formData.surname);
+      formData.append("description", this.formData.description);
+      formData.append("photo", this.formData.photo);
+      formData.append("id_region", this.formData.id_region);
+
+      const token = this.$store.state.token;
       const url = "http://127.0.0.1:8000/api/guide/create";
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(guid),
+        body: formData,
       });
       const result = await response.json();
       if (response.ok) {
         this.message = result.message;
         this.showBlock = true;
+        await this.getGuids();
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-        console.error("Сообщение:", this.message);
       } else {
-        this.formData.surname = "";
-        this.formData.name = "";
-        this.formData.description = "";
-        this.formData.photo = "";
-        this.formData.id_region = "";
+        this.surname = "";
+        this.name = "";
+        this.description = "";
+        this.photo = "";
+        this.id_region = "";
         this.error = result.error;
         this.showBlock = true;
 
@@ -139,6 +144,15 @@ export default {
         }, 3000);
         console.error("Ошибка:", this.error);
       }
+    },
+    inGuide(id) {
+      this.$router.push({ name: "AboutGuide", params: { id } });
+    },
+    logout() {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("id_role");
+      this.$router.push("/");
+      window.location.reload();
     },
   },
 };

@@ -1,0 +1,13 @@
+.tours_create{
+    width: 445px;
+    height: 820px;
+    padding: 22px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.tours_create div{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

@@ -40,7 +40,7 @@
 .grid_regions {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 30px;
+  grid-gap: 100px;
 }
 .card {
   width: 250px;
@@ -67,18 +67,20 @@
   width: 100%;
   align-items: center;
   padding: 20px 33px;
-  color: #0b1957;
+  color: #ffffff;
+  text-shadow: #0b1957 1px 0 10px;
   font-family: "Comfortaa", sans-serif;
+  cursor: pointer;
 }
 
-.guids {
+#guids {
   margin-top: 115px;
   display: flex;
   flex-direction: column;
   gap: 100px;
   align-items: center;
 }
-.guids h1 {
+#guids h1 {
   font-size: 58px;
   font-family: "Comfortaa", sans-serif;
 }
@@ -86,10 +88,12 @@
 .grid_guids {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 30px;
+  grid-gap: 100px;
 }
 
 .overlay {
+  width: 100%;
+  height: 100%;
   position: absolute;
   border-radius: 60px;
   background: rgba(0, 0, 0, 0.529);
