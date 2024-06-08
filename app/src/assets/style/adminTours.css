@@ -1,13 +1,117 @@
-.tours_create{
-    width: 445px;
-    height: 820px;
-    padding: 22px 30px;
+.tours_create {
+  width: 446px;
+  height: 820px;
+  padding: 30px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  border-radius: 60px;
+  align-items: center;
+}
+.tours_create h2 {
+  font-size: 40px;
+  font-family: "Comfortaa", sans-serif;
+}
+.form_tour {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.input_form_small {
+  width: 190px;
+  height: 60px;
+  border-radius: 30px;
+  padding: 0 25px;
+}
+.input_form_small_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.list_tours {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  font-size: 24px;
+}
+.list_tours li:hover {
+  color: #aacae7;
+  cursor: pointer;
+}
+
+/*конкретный тур*/
+.tour_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.tour_content_forms {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+.tours_update_block {
+  padding: 30px 22px;
+  width: 445px;
+  height: 642px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  border-radius: 60px;
+  align-items: center;
+}
+.tour_content_about{
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
+    font-size: 18px;
 }
-.tours_create div{
+.tour_content_about > button:first-child{
+    margin-left: auto;
+}
+.tour_program_block {
+  padding: 30px 22px;
+  width: 445px;
+  height: 456px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  border-radius: 60px;
+  align-items: center;
+}
+.card_about_tour_admin {
+  display: flex;
+  flex-direction: row;
+  width: 578px;
+  justify-content: space-between;
+}
+.card_about_tour_admin_text {
+  width: 320px;
     display: flex;
+    flex-direction: column;
+    gap:18px;
+}
+.card_about_tour_admin_text>p:first-child {
+    font-size: 24px;
+}
+.card_tour_admin_block {
+  background-color: #aacae7;
+  border-radius: 60px;
+  width: 578px;
+  height: 305px;
+  padding: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+.card_tour_admin_block > div:nth-child(2) {
+  display: flex;
     flex-direction: column;
     gap: 15px;
+}
+.card_tour_text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 587px;
+}
+.card_tour_text h3 {
+    font-size: 40px;
+    font-family: "Comfortaa", sans-serif;
 }

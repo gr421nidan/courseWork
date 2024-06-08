@@ -94,7 +94,7 @@
 }
 .title_card {
   position: absolute;
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -117,7 +117,7 @@
   row-gap: 6px;
 }
 .card_about_tour h4 {
-  font-size: 20px;
+  font-size: 18px;
 }
 .about_tour {
   font-size: 18px;
@@ -135,6 +135,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 .status {
   font-weight: bold;

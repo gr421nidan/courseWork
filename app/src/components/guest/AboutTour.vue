@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div class="container">
     <div class="content">
@@ -9,18 +7,12 @@
           <div class="block_about_tour_content">
             <img alt="photo_tour" src="" />
             <div class="block_about_tour">
-              <h1>Просторы Шерегеша</h1>
+              <h1>{{ tour.name }}</h1>
               <div class="block_about_tour_text">
-                <p>Кемеровская область</p>
-                <p>18 - 24 декабря</p>
-                <p>Экскурсовод Денис Азаревич</p>
-                <p>
-                  Присоединяйтесь к нашему захватывающему зимнему туру в самый
-                  популярный горнолыжный курорт России - Шерегеш! Отправляйтесь
-                  в удивительное путешествие, полное ярких впечатлений и
-                  незабываемых моментов с нашим потрясающим экскурсоводом
-                  Денисом Азаревичем.
-                </p>
+                <p>{{ nameRegion }}</p>
+                <p>с {{ tour.date_start }} по {{ tour.date_end }}</p>
+                <p>Экскурсовод {{ nameGuide }}</p>
+                <p>{{ tour.description }}</p>
               </div>
             </div>
           </div>
@@ -172,5 +164,39 @@
     </div>
   </div>
 </template>
+<script>
+import { getAboutTour } from "@/mixins/getAboutTour";
 
+export default {
+  mixins: [getAboutTour],
+  name: "aboutTour",
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      formData: {
+        description: "",
+      },
+      hotels: [],
+      guids: [],
+      tour: {},
+      statuses: [],
+      error: "",
+      message: "",
+      nameRegion: "",
+      nameGuide: "",
+      nameHotel: "",
+      programTour: "",
+      statusTour: "",
+    };
+  },
+  created() {
+    this.getAboutTour();
+  },
+};
+</script>
 <style scoped></style>

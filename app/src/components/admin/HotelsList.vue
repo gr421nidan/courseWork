@@ -2,7 +2,6 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Отели</h1>
           <span v-if="!verifiedEmail">
@@ -37,7 +36,7 @@
               <input
                 class="input_form"
                 type="text"
-                v-model="formData.name"
+                v-model="formData.address"
                 placeholder="Адрес"
               />
               <textarea
@@ -60,6 +59,7 @@
                 type="file"
                 @change="onFileChange"
                 placeholder="Добавить фото"
+                multiple="multiple"
               />
             </div>
             <button class="button_admin_pages" type="submit">Добавить</button>
@@ -72,14 +72,15 @@
 
 <script>
 import { getRegions } from "/src/mixins/getRegions";
+import { getHotels } from "@/mixins/getHotels";
 export default {
-  mixins: [getRegions],
+  mixins: [getRegions, getHotels],
   data() {
     return {
       formData: {
         name: "",
         address: "",
-        photo: "",
+        photo: [],
         description: "",
         id_region: "",
       },
@@ -93,59 +94,48 @@ export default {
   },
   created() {
     this.getHotels();
+    this.getRegions();
   },
   methods: {
     onFileChange(event) {
       this.formData.photo = event.target.files[0];
     },
-    async getHotels() {
-      const token = this.$store.state.token;
-      const url = "http://127.0.0.1:8000/api/housing";
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const result = await response.json();
-        this.hotels = result.data;
-      } else {
-        this.error = "Ошибка";
-        console.error(this.error);
-      }
-    },
 
     async createHotels() {
-      const hotel = {
-        name: this.formData.name,
-        address: this.formData.address,
-        description: this.formData.description,
-        photo: this.formData.photo,
-        id_region: this.formData.id_region,
-      };
-      const url = "http://127.0.0.1:8000/api/guide/create";
+      if (!this.formData.photo) {
+        this.message = "Пожалуйста, выберите фото.";
+        return;
+      }
+      const formData = new FormData();
+      formData.append("name", this.formData.name);
+      formData.append("address", this.formData.address);
+      formData.append("description", this.formData.description);
+      formData.append("photo", this.formData.photo);
+      formData.append("id_region", this.formData.id_region);
+
+      const token = this.$store.state.token;
+      const url = "http://127.0.0.1:8000/api/housing/photo";
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(hotel),
+        body: formData,
       });
       const result = await response.json();
+      console.log(result);
+      console.log(this.formData);
       if (response.ok) {
         this.message = result.message;
         this.showBlock = true;
+        console.log(result);
+        this.formData = {};
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
         console.error("Сообщение:", this.message);
       } else {
-        this.formData.name = "";
-        this.formData.address = "";
-        this.formData.description = "";
-        this.formData.photo = "";
-        this.formData.id_region = "";
+        this.formData = {};
         this.error = result.error;
         this.showBlock = true;
 
@@ -157,12 +147,6 @@ export default {
     },
     inHotel(id) {
       this.$router.push({ name: "AboutHotel", params: { id } });
-    },
-    logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_role");
-      this.$router.push("/");
-      window.location.reload();
     },
   },
 };

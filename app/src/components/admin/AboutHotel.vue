@@ -2,7 +2,6 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Отель - {{ hotelName }}</h1>
           <span v-if="!verifiedEmail">
@@ -52,6 +51,12 @@
 <script>
 export default {
   name: "AboutHotel",
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       hotel: {
@@ -63,10 +68,12 @@ export default {
   },
   methods: {
     async getAboutHotel() {
-      const url = `http://127.0.0.1:8000/api/housing/${this.id}`;
+      const token = this.$store.state.token;
+      const url = `http://127.0.0.1:8000/api/housing/admin/${this.id}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
@@ -78,12 +85,6 @@ export default {
         this.error = "Ошибка";
         console.error(this.error);
       }
-    },
-    logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_role");
-      this.$router.push("/");
-      window.location.reload();
     },
     backPhoto() {
       if (this.currentPhotoIndex > 0) {

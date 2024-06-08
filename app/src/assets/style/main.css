@@ -32,7 +32,8 @@ li{
 }
 .nav_admin a.active,
 .navigation a.active,
-.footer_nav a.active {
+.footer_nav a.active,
+.nav_authenticated a.active{
   text-decoration: underline;
 }
 .container {
@@ -52,13 +53,23 @@ input,
 textarea,
 select {
   font-family: "Exo 2", sans-serif;
+  font-size: 18px;
+
+}
+input::placeholder{
+  color: #0b1957;
+  font-size: 18px;
+}
+select option {
+  color: #0b1957;
+  font-size: 18px;
 }
 #app {
   background-color: #fff7eb;
   color: #0b1957;
   font-family: "Exo 2", sans-serif;
   width: 100%;
-  min-height: 1050px;
+  height: 100%;
 }
 
 .content {
@@ -119,7 +130,10 @@ select {
   display: flex;
   gap: 100px;
 }
-
+.admin_header{
+  display: flex;
+  justify-content: space-between;
+}
 .nav_admin {
   background-color: #aacae7;
   min-height: 1050px;
@@ -145,9 +159,18 @@ select {
   width: 120px;
 }
 section {
-  height: 1050px;
+  min-height: 1050px;
 }
-
+.logout_admin{
+  margin-left: auto;
+  margin-top: 40px;
+  width: 200px;
+  height: 60px;
+  background-color: #aacae7;
+  color: white;
+  border-radius: 60px;
+  font-size: 18px;
+}
 .show-message {
   position: absolute;
   top: 20%;

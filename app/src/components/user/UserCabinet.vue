@@ -19,11 +19,11 @@
                 >Мои туры</a
               >
             </div>
-            <span v-if="!verifiedEmail">
+            <span v-if="verifiedEmail">
               <button class="btn_cabinet_email">Подтвердить почту</button>
             </span>
-            <span v-if="verifiedEmail">
-              <p>myemail@email.com</p>
+            <span v-if="!verifiedEmail">
+              <p>{{ user.email }}</p>
             </span>
           </div>
           <div class="line_element_cabinet"></div>
@@ -31,18 +31,28 @@
         <section v-if="activeSection === 'profile'" class="profile">
           <div class="profile_block">
             <h3>Персональные данные</h3>
-            <form class="form_profile">
+            <form class="form_profile" @submit.prevent="updateUserProfile">
               <div>
                 <label>Фамилия</label>
-                <input placeholder="Никушкина" />
+                <input v-model="user.surname" />
               </div>
               <div>
                 <label>Имя</label>
-                <input placeholder="Дарья" />
+                <input v-model="user.name" />
               </div>
               <div>
                 <label>Отчество</label>
-                <input placeholder="Андреевна" />
+                <span
+                  v-if="user.patronymic === 'NULL' || user.patronymic === null"
+                >
+                  <input
+                    placeholder="Введите отчество"
+                    v-model="user.patronymic"
+                  />
+                </span>
+                <span v-else>
+                  <input v-model="user.patronymic" />
+                </span>
               </div>
               <button type="submit">Сохранить</button>
             </form>
@@ -77,13 +87,34 @@
     </div>
   </div>
 </template>
-<script setup>
+<script>
+import { getUserProfile } from "/src/mixins/getUserProfile";
+import { updateUserProfile } from "/src/mixins/updateUserProfile";
 import { ref } from "vue";
 
-const activeSection = ref("profile");
-
-function setActiveSection(section) {
-  activeSection.value = section;
-}
+export default {
+  mixins: [getUserProfile, updateUserProfile],
+  props: {
+    userId: {
+      type: Number,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      activeSection: ref("profile"),
+      user: {},
+    };
+  },
+  mounted() {
+    this.getUserProfile();
+    this.updateUserProfile();
+  },
+  methods: {
+    setActiveSection(section) {
+      this.activeSection = section;
+    },
+  },
+};
 </script>
 <style scoped></style>

@@ -2,7 +2,6 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Туры</h1>
           <span v-if="!verifiedEmail">
@@ -16,14 +15,18 @@
       </div>
       <div class="tours_content">
         <div class="list_tours">
-          <li v-for="tour in tours" :key="tour.id">
-            {{ tour.name }}
+          <li
+            v-for="tour in tours"
+            :key="tour.id"
+            @click="inTour(tour.tour.id)"
+          >
+            {{ tour.tour.name }}
           </li>
         </div>
         <div class="tours_create_block">
           <form @submit.prevent="createTours" class="tours_create">
             <h2>Добавить тур</h2>
-            <div>
+            <div class="form_tour">
               <input
                 class="input_form"
                 type="text"
@@ -35,7 +38,7 @@
                 v-model="formData.description"
                 placeholder="Описание"
               />
-              <div>
+              <div class="input_form_small_row">
                 <input
                   class="input_form_small"
                   type="text"
@@ -44,7 +47,7 @@
                 />
                 <input
                   class="input_form_small"
-                  type="date"
+                  type="number"
                   v-model="formData.legal_age"
                   placeholder="Мин.возраст"
                 />
@@ -54,7 +57,7 @@
                 v-model="formData.enabled"
                 placeholder="Включено в тур"
               />
-              <div>
+              <div class="input_form_small_row">
                 <input
                   class="input_form_small"
                   type="date"
@@ -128,24 +131,25 @@ export default {
       this.formData.photo = event.target.files[0];
     },
     async createTours() {
-      const tour = {
-        name: this.formData.name,
-        description: this.formData.description,
-        price: this.formData.price,
-        legal_age: this.formData.legal_age,
-        date_start: this.formData.date_start,
-        date_end: this.formData.date_end,
-        enabled: this.formData.enabled,
-        photo: this.formData.photo,
-        id_region: this.formData.id_region,
-      };
-      const url = "http://127.0.0.1:8000/api/guide/create";
+      const formData = new FormData();
+      formData.append("name", this.formData.name);
+      formData.append("description", this.formData.description);
+      formData.append("price", this.formData.price);
+      formData.append("legal_age", this.formData.legal_age);
+      formData.append("enabled", this.formData.enabled);
+      formData.append("date_start", this.formData.date_start);
+      formData.append("date_end", this.formData.date_end);
+      formData.append("photo", this.formData.photo);
+      formData.append("id_region", this.formData.id_region);
+
+      const token = this.$store.state.token;
+      const url = "http://127.0.0.1:8000/api/tour/create";
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(tour),
+        body: formData,
       });
       const result = await response.json();
       if (response.ok) {
@@ -174,11 +178,8 @@ export default {
         console.error("Ошибка:", this.error);
       }
     },
-    logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_role");
-      this.$router.push("/");
-      window.location.reload();
+    inTour(id) {
+      this.$router.push({ name: "AboutTour", params: { id } });
     },
   },
 };

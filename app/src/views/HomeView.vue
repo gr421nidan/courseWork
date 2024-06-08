@@ -141,32 +141,36 @@
   <div class="container" v-if="$store.getters.isAdmin">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Личный кабинет</h1>
-          <span v-if="!verifiedEmail">
+          <span v-if="verifiedEmail">
             <button type="submit">Подтвердить почту</button>
           </span>
-          <span v-if="verifiedEmail">
-            <p>myemail@email.com</p>
+          <span v-if="!verifiedEmail">
+            <p>{{ user.email }}</p>
           </span>
         </div>
         <div class="line_element"></div>
       </div>
       <div class="profile_block">
         <h3>Персональные данные</h3>
-        <form class="form_profile" v-for="user in users" :key="user.id">
+        <form class="form_profile" @submit.prevent="updateUserProfile">
           <div>
             <label>Фамилия</label>
-            <input placeholder="{{ user.surname }}" />
+            <input v-model="user.surname" />
           </div>
           <div>
             <label>Имя</label>
-            <input placeholder="{{ user.name }}" />
+            <input v-model="user.name" />
           </div>
           <div>
             <label>Отчество</label>
-            <input placeholder="{{ user.patronymic }}" />
+            <span v-if="user.patronymic === 'NULL' || user.patronymic === null">
+              <input placeholder="Введите отчество" v-model="user.patronymic" />
+            </span>
+            <span v-else>
+              <input v-model="user.patronymic" />
+            </span>
           </div>
           <button type="submit">Сохранить</button>
         </form>
@@ -178,33 +182,37 @@
 import { getRegions } from "/src/mixins/getRegions";
 import { getGuids } from "/src/mixins/getGuids";
 import { getUserProfile } from "/src/mixins/getUserProfile";
+import { updateUserProfile } from "/src/mixins/updateUserProfile";
 
 export default {
-  mixins: [getRegions, getGuids, getUserProfile],
+  mixins: [getRegions, getGuids, getUserProfile, updateUserProfile],
+  props: {
+    userId: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       regions: [],
       guids: [],
       error: "",
       message: "",
-      users: [],
+      user: {},
     };
   },
   methods: {
     inRegion(id) {
       this.$router.push({ name: "tourInRegion", params: { id } });
     },
-    logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_role");
-      this.$router.push("/");
-      window.location.reload();
-    },
   },
   created() {
     this.getRegions();
     this.getGuids();
-    this.getUserProfile();
+    if (this.$store.getters.isAuthenticated) {
+      this.updateUserProfile();
+      this.getUserProfile();
+    }
   },
 };
 </script>

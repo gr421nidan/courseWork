@@ -7,7 +7,7 @@ export const getTours = {
   },
   methods: {
     async getTours() {
-      const url = "http://127.0.0.1:8000/api/guide";
+      const url = "http://127.0.0.1:8000/api/tours";
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -15,8 +15,8 @@ export const getTours = {
         },
       });
       if (response.ok) {
-        const result = await response.json();
-        this.hotels = result.data;
+        this.tours = await response.json();
+        console.log(this.tours);
       } else {
         this.error = "Ошибка";
         console.error(this.error);

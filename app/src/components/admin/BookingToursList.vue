@@ -2,7 +2,6 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button type="submit">Выход</button>
         <div>
           <h1>Заявки</h1>
           <span v-if="!verifiedEmail">

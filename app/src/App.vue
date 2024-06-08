@@ -4,40 +4,49 @@
   </div>
   <div v-if="!isAuthRelatedPage">
     <span v-if="$store.getters.isAdmin && $store.getters.isAuthenticated">
-      <nav class="nav_admin">
-        <div class="nav_admin_logo">
-          <img alt="logo" src="../src/assets/images/logo_nav.png" />
-          <span class="logo_text">Снежный мир</span>
-        </div>
-        <router-link to="/" :class="{ active: $route.path === '/' }"
-          >Личный кабинет</router-link
+      <div class="admin_header">
+        <nav class="nav_admin">
+          <div class="nav_admin_logo">
+            <img alt="logo" src="../src/assets/images/logo_nav.png" />
+            <span class="logo_text">Снежный мир</span>
+          </div>
+          <router-link to="/" :class="{ active: $route.path === '/' }"
+            >Личный кабинет</router-link
+          >
+          <router-link
+            to="/admin/guids"
+            :class="{ active: $route.path === '/admin/guids' }"
+            >Экскурсоводы</router-link
+          >
+          <router-link
+            to="/admin/regions"
+            :class="{ active: $route.path === '/admin/regions' }"
+            >Регионы</router-link
+          >
+          <router-link
+            to="/admin/booking/tours"
+            :class="{ active: $route.path === '/admin/booking/tours' }"
+            >Заявки</router-link
+          >
+          <router-link
+            to="/admin/hotels"
+            :class="{ active: $route.path === '/admin/hotels' }"
+            >Отели</router-link
+          >
+          <router-link
+            to="/admin/tours"
+            :class="{ active: $route.path === '/admin/tours' }"
+            >Туры</router-link
+          >
+        </nav>
+        <button
+          class="logout_admin content-admin"
+          @click="logout"
+          type="submit"
         >
-        <router-link
-          to="/admin/guids"
-          :class="{ active: $route.path === '/admin/guids' }"
-          >Экскурсоводы</router-link
-        >
-        <router-link
-          to="/admin/regions"
-          :class="{ active: $route.path === '/admin/regions' }"
-          >Регионы</router-link
-        >
-        <router-link
-          to="/admin/booking/tours"
-          :class="{ active: $route.path === '/admin/booking/tours' }"
-          >Заявки</router-link
-        >
-        <router-link
-          to="/admin/hotels"
-          :class="{ active: $route.path === '/admin/hotels' }"
-          >Отели</router-link
-        >
-        <router-link
-          to="/admin/tours"
-          :class="{ active: $route.path === '/admin/tours' }"
-          >Туры</router-link
-        >
-      </nav>
+          Выход
+        </button>
+      </div>
     </span>
     <div class="container" v-if="!$store.getters.isAdmin">
       <nav class="navigation content">
@@ -89,8 +98,8 @@
               >Главная</router-link
             >
             <router-link
-              to="/user/me"
-              :class="{ active: $route.path === '/user/me' }"
+              :to="'/user/' + $store.state.userId"
+              :class="{ active: $route.params.userId === $store.state.userId }"
               >Личный кабинет</router-link
             >
             <router-link
@@ -144,7 +153,11 @@
       </span>
       <span class="footer_nav" v-if="$store.getters.isAuthenticated">
         <router-link to="/">Главная</router-link>
-        <router-link to="/user/me">Личный кабинет</router-link>
+        <router-link
+          :to="'/user/' + $store.state.userId"
+          :class="{ active: $route.params.userId === $store.state.userId }"
+          >Личный кабинет</router-link
+        >
         <router-link to="/tours">Туры</router-link>
         <a href="#" @click.prevent="scrollToSection('regions')">Регионы</a>
         <a href="#" @click.prevent="scrollToSection('about')">О нас</a>
@@ -162,6 +175,7 @@
 <style></style>
 <script>
 export default {
+  props: ["userId"],
   data() {
     return {
       isAuthenticated: false,
@@ -192,9 +206,8 @@ export default {
       }
     },
     logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_role");
       this.$router.push("/");
+      localStorage.removeItem("token");
       window.location.reload();
     },
   },

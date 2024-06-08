@@ -79,7 +79,7 @@ const routes = [
   },
   {
     path: "/tour/:id",
-    name: "about",
+    name: "aboutTour",
     component: AboutTour,
     props: (route) => ({ id: Number(route.params.id) }),
   },
@@ -96,10 +96,13 @@ const routes = [
     props: (route) => ({ id: Number(route.params.id) }),
   },
   {
-    path: "/user/me",
+    path: "/user/:userId",
     name: "cabinet",
     component: UserCabinet,
     beforeEnter: ifAuthenticated,
+    props: (route) => ({
+      userId: Number(route.params.userId),
+    }),
   },
   {
     path: "/booked/create",
@@ -114,10 +117,11 @@ const routes = [
     beforeEnter: ifAdmin,
   },
   {
-    path: "/admin/tours/about",
-    name: "tours-about",
+    path: "/admin/tours/:id",
+    name: "AboutTour",
     component: AboutTourAdmin,
     beforeEnter: ifAdmin,
+    props: (route) => ({ id: Number(route.params.id) }),
   },
   {
     path: "/admin/regions",
@@ -132,7 +136,7 @@ const routes = [
     beforeEnter: ifAdmin,
   },
   {
-    path: "/admin/guids/:id",
+    path: "/admin/guide/:id",
     name: "AboutGuide",
     component: AboutGuid,
     beforeEnter: ifAdmin,

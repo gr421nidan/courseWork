@@ -2,7 +2,6 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Регионы</h1>
           <span v-if="!verifiedEmail">
@@ -126,12 +125,6 @@ export default {
         }, 3000);
         console.error("Ошибка:", this.error);
       }
-    },
-    logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_role");
-      this.$router.push("/");
-      window.location.reload();
     },
   },
 };

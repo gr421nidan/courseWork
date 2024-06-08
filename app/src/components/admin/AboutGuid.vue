@@ -2,7 +2,6 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Экскурсоводы</h1>
           <span v-if="!verifiedEmail">
@@ -57,6 +56,12 @@
 <script>
 export default {
   name: "AboutHotel",
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       formData: {
@@ -101,17 +106,12 @@ export default {
       if (response.ok) {
         const result = await response.json();
         this.guide = result.guide;
+        this.formData.description = "";
         console.log(result);
       } else {
         this.error = "Ошибка при обновлении гида";
         console.error(this.error);
       }
-    },
-    logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_role");
-      this.$router.push("/");
-      window.location.reload();
     },
   },
   created() {

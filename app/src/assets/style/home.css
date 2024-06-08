@@ -248,14 +248,7 @@
   font-size: 58px;
   font-family: "Comfortaa", sans-serif;
 }
-.admin_header_content div button {
-  width: 400px;
-  height: 60px;
-  background-color: #aacae7;
-  color: white;
-  border-radius: 60px;
-  font-size: 18px;
-}
+
 .profile_block {
   width: 690px;
   height: 610px;

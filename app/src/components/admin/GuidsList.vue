@@ -2,7 +2,6 @@
   <div class="container">
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
-        <button @click="logout" type="submit">Выход</button>
         <div>
           <h1>Экскурсоводы</h1>
           <span v-if="!verifiedEmail">
@@ -127,15 +126,12 @@ export default {
         this.message = result.message;
         this.showBlock = true;
         await this.getGuids();
+        this.formData = {};
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
       } else {
-        this.surname = "";
-        this.name = "";
-        this.description = "";
-        this.photo = "";
-        this.id_region = "";
+        this.formData = "";
         this.error = result.error;
         this.showBlock = true;
 
@@ -147,12 +143,6 @@ export default {
     },
     inGuide(id) {
       this.$router.push({ name: "AboutGuide", params: { id } });
-    },
-    logout() {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id_role");
-      this.$router.push("/");
-      window.location.reload();
     },
   },
 };

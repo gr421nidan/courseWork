@@ -65,12 +65,18 @@ export default {
         });
         const result = await response.json();
         if (response.ok) {
-          localStorage.setItem("access_token", result.access_token);
-          localStorage.setItem("id_role", result.id_role);
+          localStorage.setItem("token", result.access_token);
+          this.$store.dispatch("login", {
+            token: result.access_token,
+            role: result.id_role,
+            userId: result.user.id,
+          });
           this.$router.push("/");
-          window.location.reload();
-        } else throw new Error(result.message || "Ошибка авторизации");
+        } else {
+          throw new Error(result.message || "Ошибка авторизации");
+        }
       } catch (error) {
+        this.$store.commit("AUTH_ERROR");
         this.formData.email = "";
         this.formData.password = "";
         this.message = error.message;

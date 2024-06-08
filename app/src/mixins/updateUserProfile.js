@@ -1,4 +1,4 @@
-export const getUserProfile = {
+export const updateUserProfile = {
   data() {
     return {
       error: "",
@@ -6,20 +6,24 @@ export const getUserProfile = {
     };
   },
   methods: {
-    async getUserProfile() {
+    async updateUserProfile() {
       const userId = this.$store.state.userId;
       const token = this.$store.state.token;
-      const url = `http://127.0.0.1:8000/api/user/${userId}`;
+      const url = `http://127.0.0.1:8000/api/user/update/${userId}`;
       try {
         const response = await fetch(url, {
-          method: "GET",
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify(this.user),
         });
         if (response.ok) {
           const result = await response.json();
-          this.user = result[0];
+          this.user = result.user;
+          this.message = result.message;
+          console.log(this.message);
           console.log(this.user);
         }
       } catch (error) {
