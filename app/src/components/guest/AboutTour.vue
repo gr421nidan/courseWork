@@ -5,8 +5,11 @@
         <div>
           <router-link to="/tours">Вернуться назад</router-link>
           <div class="block_about_tour_content">
-            <img alt="photo_tour" src="" />
+            <img alt="photo_tour" :src="tour.photo" />
             <div class="block_about_tour">
+              <p>
+                <strong>{{ statusTour }}</strong>
+              </p>
               <h1>{{ tour.name }}</h1>
               <div class="block_about_tour_text">
                 <p>{{ nameRegion }}</p>
@@ -17,91 +20,75 @@
             </div>
           </div>
         </div>
-
         <div class="line_element"></div>
       </section>
       <section class="program_tour_content">
-        <div class="blocks_about_tour">
+        <div class="blocks_about_tour_program">
           <div class="enabled_in_tour">
-            <img src="" />
+            <h3>{{ tour.price }} руб.</h3>
             <div class="enabled_in_tour_text">
-              <h3>42 000 руб.</h3>
               <div>
                 <p>Что включено в тур:</p>
                 <ul>
-                  <li>Проживание в уютном отеле на курорте.</li>
-                  <li>Горнолыжный абонемент на все дни пребывания</li>
-                  <li>Экскурсии и развлечения по программе.</li>
-                  <li>Трансферы из/в аэропорт или железнодорожный вокзал.</li>
+                  <li v-for="item in enabledItems" :key="item">
+                    <span class="marker">•</span>{{ item }}
+                  </li>
                 </ul>
               </div>
-
-              <button class="program_btn">
-                <router-link to="/booked/create">Забронировать</router-link>
-              </button>
-              <div id="block_about_price">
-                <p>Не требует оплаты сейчас</p>
-                <div class="circle">?</div>
+            </div>
+            <button @click="inBookingTour(tour.id)" class="program_btn">
+              Забронировать
+            </button>
+            <div id="block_about_price">
+              <p>Не требует оплаты сейчас</p>
+              <div class="circle">
+                <p>?</p>
+                <div class="price_info">
+                  <p>
+                    После одобрения заявки с вами свяжется координатор тура по
+                    звонку. Вы сможете задать все вопросы по туру, а затем
+                    получить договор и счет.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
           <div class="program_tour">
             <h1>Программа тура:</h1>
-            <div>
-              <p>День 1: Прибытие в Шерегеш</p>
-              <ul>
-                <li>Встреча на курорте и размещение в уютном отеле.</li>
-                <li>Свободное время на адаптацию и отдых после переезда.</li>
-              </ul>
+            <div v-if="programs.length === 0">
+              <p>Программа тура пока не доступна.</p>
             </div>
-            <div>
-              <p>День 2-5: Горнолыжные спуски и экскурсии</p>
-              <ul>
-                <li>
-                  Утренние горнолыжные спуски на самых интересных склонах
-                  Шерегеша под руководством опытных инструкторов.
-                </li>
-                <li>
-                  Экскурсии по окрестностям курорта с посещением местных
-                  достопримечательностей и панорамных видовых площадок.
-                </li>
-                <li>
-                  Вечерние развлечения в курортных барах и ресторанах, где вы
-                  сможете насладиться атмосферой зимнего веселья и попробовать
-                  местные кулинарные изыски.
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p>День 6: Отъезд</p>
-              <ul>
-                <li>
-                  Утренний отъезд из Шерегеша с наслаждением последними
-                  впечатлениями от зимнего курорта.
-                </li>
-                <li>
-                  Переезд в аэропорт или железнодорожный вокзал для отправления
-                  домой.
-                </li>
-              </ul>
+            <div v-else>
+              <div v-for="program in programs" :key="program.id">
+                <p>{{ program.day }}</p>
+                <div v-if="program.programme">
+                  <div
+                    v-for="programme in program.programme.split('\n')"
+                    :key="programme"
+                  >
+                    <span class="marker">•</span>
+                    {{ programme }}
+                  </div>
+                </div>
+                <div v-else>
+                  <p>Программа тура пока не доступна.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="tour_info_block">
           <div class="info_tour_column_one">
             <h4>Проживание во время тура</h4>
-            <p>Отель Йети Хаус</p>
+            <p>{{ housing.name }}</p>
             <div id="address_block">
-              <img src="" />
-              <p>
-                Кемеровская область, Таштагольский р-н, п. Шерегеш, ул. Снежная,
-                д. 50
-              </p>
+              <img src="../../assets/images/address_marker.png" />
+              <p>{{ housing.address }}</p>
             </div>
           </div>
           <div class="info_tour_column_two">
             <h4>Минимальный возраст</h4>
-            <p>12 лет</p>
+            <p>{{ tour.legal_age }} лет</p>
           </div>
           <div class="info_tour_column_three">
             <h4>Задайте вопрос координатору тура</h4>
@@ -111,54 +98,82 @@
         </div>
         <div class="line_element"></div>
       </section>
-      <section class="hotel_content">
-        <h1>Отель Йети Хаус</h1>
-        <div class="hotel_info">
+      <section class="hotel_content_tour">
+        <h1>Отель {{ housing.name }}</h1>
+        <div v-if="!housing || Object.keys(housing).length === 0">
+          <p>Отель данному туру ещё не назначен.</p>
+        </div>
+        <div v-else class="hotel_info">
           <div class="hotel_info_text">
-            <p>
-              Уютный уголок в сердце зимних гор! Расположенный среди
-              величественных горных вершин и покрытых снегом лесов, отель
-              предлагает непревзойденный комфорт и удобства для вашего зимнего
-              отдыха.<br />
-              Гостям предлагается 48 комфортабельных номеров различных
-              категорий. В ресторане отеля подаются блюда русской, европейской и
-              японской кухни. Каждое утро предлагается континентальный завтрак
-              «шведский стол». Для путешественников на машине организована
-              парковка.
-            </p>
+            <p>{{ housing.description }}</p>
             <div>
               <p>Адресс:</p>
               <p>
-                Кемеровская обл., Таштагольский р-н, п. Шерегеш, ул. Снежная, д.
-                50
+                {{ housing.address }}
               </p>
             </div>
           </div>
           <div class="hotel_photos">
-            <div class="photos_hotel_content">
-              <img src="" />
-              <div class="block_photo"></div>
-            </div>
-            <div class="arrows_row">
-              <img alt="arrow_left" src="" />
-              <img class="arrow_main_right" alt="arrow_right" src="" />
+            <span class="photos_hotel_content">
+              <img
+                v-if="housing.photo && housing.photo.length"
+                :src="housing.photo[currentPhotoIndex]"
+                alt="hotel_photo"
+              />
+              <p v-else>Фото недоступны</p>
+            </span>
+            <div
+              class="arrows_row"
+              v-if="housing.photo && housing.photo.length"
+            >
+              <img
+                alt="arrow_left"
+                src="../../assets/images/arrow_left.png"
+                @click="backPhoto"
+              />
+              <img
+                class="arrow_hotel_right"
+                alt="arrow_right"
+                src="../../assets/images/arrow_left.png"
+                @click="nextPhoto"
+              />
             </div>
           </div>
         </div>
-
         <div class="line_element"></div>
       </section>
       <section class="feedback_content">
         <div class="head_feedback_content">
           <h1>Отзывы о туре</h1>
-          <button class="btn_feedback">
-            <router-link to="/feedback/create">Оставить отзыв</router-link>
+          <button class="btn_feedback" @click="inFeedbackCreate(tour.id)">
+            Оставить отзыв
           </button>
         </div>
-        <div>
+        <div v-if="feedbacks.length === 0" class="no_reviews">
+          <p>Пока нет отзывов о туре.</p>
+        </div>
+        <div
+          v-else
+          class="card_feedback"
+          v-for="feedback in feedbacks"
+          :key="feedback.id"
+        >
           <div>
-            <h3>Мария</h3>
+            <h3>{{ feedback.user_name }}</h3>
+            <div class="rating_area_static">
+              <label
+                v-for="n in 5"
+                :key="n"
+                :class="{ filled: n <= feedback.rating }"
+                >★</label
+              >
+            </div>
           </div>
+          <p>{{ feedback.comment }}</p>
+          <div class="photos_feedback">
+            <img v-for="photo in feedback.photos" :src="photo" :key="photo" />
+          </div>
+          <p>{{ feedback.date }}</p>
         </div>
       </section>
     </div>
@@ -189,13 +204,40 @@ export default {
       message: "",
       nameRegion: "",
       nameGuide: "",
-      nameHotel: "",
-      programTour: "",
+      housing: {
+        photo: [],
+      },
+      feedbacks: [],
+      programs: [],
       statusTour: "",
+      currentPhotoIndex: 0,
     };
   },
   created() {
     this.getAboutTour();
+  },
+
+  methods: {
+    backPhoto() {
+      if (this.currentPhotoIndex > 0) {
+        this.currentPhotoIndex--;
+      } else {
+        this.currentPhotoIndex = this.housing.photo.length - 1;
+      }
+    },
+    nextPhoto() {
+      if (this.currentPhotoIndex < this.housing.photo.length - 1) {
+        this.currentPhotoIndex++;
+      } else {
+        this.currentPhotoIndex = 0;
+      }
+    },
+    inFeedbackCreate(id) {
+      this.$router.push({ name: "feedbackCreate", params: { id } });
+    },
+    inBookingTour(id) {
+      this.$router.push({ name: "bookingTour", params: { id } });
+    },
   },
 };
 </script>

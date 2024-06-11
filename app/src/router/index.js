@@ -84,10 +84,11 @@ const routes = [
     props: (route) => ({ id: Number(route.params.id) }),
   },
   {
-    path: "/feedback/create",
-    name: "feedback",
+    path: "/feedback/create/:id",
+    name: "feedbackCreate",
     component: UserFeedback,
     beforeEnter: ifAuthenticated,
+    props: (route) => ({ id: Number(route.params.id) }),
   },
   {
     path: "/region/:id",
@@ -105,10 +106,11 @@ const routes = [
     }),
   },
   {
-    path: "/booked/create",
+    path: "/booked/create/:id",
     name: "bookingTour",
     component: BookingTour,
     beforeEnter: ifAuthenticated,
+    props: (route) => ({ id: Number(route.params.id) }),
   },
   {
     path: "/admin/tours",
@@ -162,10 +164,11 @@ const routes = [
     beforeEnter: ifAdmin,
   },
   {
-    path: "/admin/booking/tours/about",
-    name: "booking-tours-about",
+    path: "/admin/booked/:id",
+    name: "AboutApplication",
     component: AboutBookingTour,
     beforeEnter: ifAdmin,
+    props: (route) => ({ id: Number(route.params.id) }),
   },
 ];
 

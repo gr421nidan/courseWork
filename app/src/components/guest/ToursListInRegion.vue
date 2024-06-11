@@ -8,37 +8,42 @@
             <h4>{{ regionName }}</h4>
           </div>
           <div class="btns">
-            <button class="filters">Фильтрация</button>
-            <form action="" method="get" class="search_form">
-              <input type="text" placeholder="Название" />
+            <form
+              @submit.prevent="submitSearch"
+              action=""
+              method="get"
+              class="search_form"
+            >
+              <input v-model="searchQuery" type="text" placeholder="Название" />
               <button type="submit">
                 <img src="../../assets/images/icon_search.png" />
               </button>
             </form>
           </div>
         </div>
-        <div class="grid_tours" v-for="tour in tours" :key="tour.id">
-          <div class="card_tour">
-            <img alt="photo_tour" :src="tour.photo" />
+        <div class="grid_tours">
+          <div v-if="tours.length === 0">
+            <p>В данном регионе пока отстустствуют туры.</p>
+          </div>
+          <div class="card_tour" v-for="tour in tours" :key="tour.tour.id">
+            <img alt="photo_tour" :src="tour.tour.photo" />
             <div class="title_card">
-              <h4>{{ tour.name }}</h4>
+              <h4>{{ tour.tour.name }}</h4>
             </div>
             <div class="overlay_tours_card">
               <div class="card_about_tour">
-                <h4>{{ tour.name }}</h4>
+                <h4>{{ tour.tour.name }}</h4>
                 <div class="line"></div>
                 <p class="region">{{ regionName }}</p>
               </div>
               <div class="about_tour">
                 <p class="status">{{ tour.status }}</p>
-                <p class="date">{{ tour.date_start }}</p>
-                <p class="price">{{ tour.price }}<span>руб.</span></p>
+                <p class="date">{{ tour.tour.date_start }}</p>
+                <p class="price">{{ tour.tour.price }}<span>руб.</span></p>
               </div>
-              <div class="btn_tour">
-                <router-link class="link_btn" to="/tour/id"
-                  >Узнать больше</router-link
-                >
-              </div>
+              <button class="btn_tour" @click="inTour(tour.tour.id)">
+                Узнать больше
+              </button>
             </div>
           </div>
         </div>
@@ -47,7 +52,10 @@
   </div>
 </template>
 <script>
+import { getTours, searchTours } from "/src/mixins/getTours"; // подставьте путь к вашему миксину
+
 export default {
+  mixins: [getTours, searchTours],
   name: "ToursList",
   props: {
     id: {
@@ -60,6 +68,7 @@ export default {
       tours: [],
       showBlock: false,
       regionName: "",
+      searchQuery: "",
     };
   },
   methods: {
@@ -73,14 +82,21 @@ export default {
       });
       if (response.ok) {
         const result = await response.json();
-        this.regionName = result.data.name;
-        this.tours = result.data.list;
+        this.regionName = result[0].region.name;
+        this.tours = result.slice(1);
       } else {
         this.error = "Ошибка";
         console.error(this.error);
       }
     },
+    inTour(id) {
+      this.$router.push({ name: "aboutTour", params: { id } });
+    },
+    async submitSearch() {
+      await this.searchTours(this.searchQuery);
+    },
   },
+
   created() {
     this.getToursInRegion();
   },

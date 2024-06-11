@@ -6,9 +6,10 @@ export const getAboutTour = {
       message: "",
       nameRegion: "",
       nameGuide: "",
-      nameHotel: "",
-      programTour: "",
+      housing: {},
+      programs: [],
       statusTour: "",
+      feedbacks: [],
     };
   },
   computed: {
@@ -31,10 +32,10 @@ export const getAboutTour = {
         this.tour = result.tour;
         this.nameRegion = result.region;
         this.nameGuide = result.guide;
-        this.nameHotel = result.housing;
-        this.programTour = result.program;
+        this.housing = result.housing;
+        this.programs = result.program;
         this.statusTour = result.status;
-        console.log(result);
+        this.feedbacks = result.feedback;
       } else {
         this.error = "Ошибка";
         console.error(this.error);

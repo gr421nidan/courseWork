@@ -16,6 +16,9 @@
           </div>
         </form>
       </div>
+      <div class="show-message" v-if="showBlock">
+        {{ message }}
+      </div>
     </div>
   </div>
 </template>
@@ -25,9 +28,7 @@ export default {
     return {
       formData: {
         email: "",
-        password: "",
       },
-      error: "",
       message: "",
       showBlock: false,
     };
@@ -38,29 +39,28 @@ export default {
         email: this.formData.email,
       };
       const url = "http://127.0.0.1:8000/api/reset-password";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        this.message = result.message;
-        this.showBlock = true;
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-      } else {
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+        if (response.ok) {
+          this.message = "Проверьте свою электронную почту!";
+        } else {
+          this.message =
+            "Ошибка сброса пароля, проверьте правильность введенных данных!";
+        }
+      } catch (error) {
+        this.message = "Произошла ошибка при сбросе пароля. Попробуйте позже.";
+      } finally {
         this.formData.email = "";
-        this.error = response.error;
         this.showBlock = true;
-
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-        console.error("Ошибка:", this.error);
       }
     },
   },

@@ -4,16 +4,16 @@
       <div class="admin_header_content">
         <div>
           <h1>Регионы</h1>
-          <span v-if="!verifiedEmail">
-            <button type="submit">Подтвердить почту</button>
-          </span>
-          <span v-if="verifiedEmail">
-            <p>myemail@email.com</p>
-          </span>
         </div>
         <div class="line_element"></div>
       </div>
+      <div v-if="showBlock" class="show-message">
+        {{ message }}
+      </div>
       <div class="regions_content">
+        <div v-if="regions.length === 0">
+          <p>Регионы отсутствуют!</p>
+        </div>
         <div class="list_regions">
           <li v-for="region in regions" :key="region.id">
             {{ region.name }}
@@ -30,12 +30,16 @@
                 v-model="formData.name"
                 placeholder="Название"
               />
-              <input
-                class="input_form"
-                type="file"
-                @change="onFileChange"
-                placeholder="Добавить фото"
-              />
+              <label for="file-upload" class="custom-file-upload">
+                Добавить фото
+                <input
+                  id="file-upload"
+                  class="input_file"
+                  type="file"
+                  @change="onFileChange"
+                  multiple
+                />
+              </label>
             </div>
             <button class="button_admin_pages" type="submit">Добавить</button>
           </form>
@@ -46,6 +50,7 @@
 </template>
 <script>
 import { getRegions } from "/src/mixins/getRegions";
+
 export default {
   mixins: [getRegions],
   data() {
@@ -54,10 +59,9 @@ export default {
         name: "",
         photo: null,
       },
+      user: {},
       regions: [],
       showBlock: false,
-      verifiedEmail: false,
-      error: "",
       message: "",
     };
   },
@@ -74,34 +78,43 @@ export default {
       formData.append("photo", this.formData.photo);
       const token = this.$store.state.token;
       const url = "http://127.0.0.1:8000/api/region/create";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-      const result = await response.json();
-      if (response.ok) {
-        this.message = result.message;
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+        const result = await response.json();
+        if (response.ok) {
+          this.message = result.message;
+          this.showBlock = true;
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+          await this.getRegions();
+        } else {
+          this.message = result.errors.name || "Ошибка при создании региона";
+          this.showBlock = true;
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+        }
+      } catch (error) {
+        this.message =
+          "Произошла ошибка при создании региона. Попробуйте позже.";
         this.showBlock = true;
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-      } else {
+      } finally {
         this.formData.name = "";
         this.formData.photo = null;
-        this.error = result.error;
-        this.showBlock = true;
-
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-        console.error("Ошибка:", this.error);
       }
     },
     async deleteRegion(id) {
-      const token = localStorage.getItem("token");
+      const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/region/delete/${id}`;
       const response = await fetch(url, {
         method: "DELETE",
@@ -113,17 +126,17 @@ export default {
       if (response.ok) {
         this.message = result.message;
         this.showBlock = true;
+        await this.getRegions();
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
       } else {
-        this.error = result.error;
+        this.message = result.message;
         this.showBlock = true;
 
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-        console.error("Ошибка:", this.error);
       }
     },
   },

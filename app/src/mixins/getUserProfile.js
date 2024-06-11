@@ -20,7 +20,6 @@ export const getUserProfile = {
         if (response.ok) {
           const result = await response.json();
           this.user = result[0];
-          console.log(this.user);
         }
       } catch (error) {
         console.error("Ошибка при получении информации о пользователе:", error);

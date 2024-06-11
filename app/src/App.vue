@@ -206,8 +206,8 @@ export default {
       }
     },
     logout() {
+      this.$store.dispatch("logout");
       this.$router.push("/");
-      localStorage.removeItem("token");
       window.location.reload();
     },
   },

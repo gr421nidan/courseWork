@@ -4,16 +4,13 @@
       <div class="admin_header_content">
         <div>
           <h1>Тур</h1>
-          <span v-if="!verifiedEmail">
-            <button type="submit">Подтвердить почту</button>
-          </span>
-          <span v-if="verifiedEmail">
-            <p>myemail@email.com</p>
-          </span>
         </div>
         <div class="line_element"></div>
       </div>
       <div class="tour_content">
+        <div v-if="showBlock" class="show-message">
+          {{ message }}
+        </div>
         <div class="tour_content_about">
           <div class="card_tour_admin">
             <div class="card_tour_text">
@@ -39,21 +36,55 @@
           <div class="card_tour_admin_block">
             <div>
               <p>Что включено в тур:</p>
-              <li v-for="item in enabledItems" :key="item">{{ item }}</li>
+
+              <li v-for="item in enabledItems" :key="item">
+                <span class="marker">•</span>{{ item }}
+              </li>
             </div>
             <div>
               <p>Место проживания:</p>
-              <p>{{ nameHotel }}</p>
+              <p v-if="housing.name">{{ housing.name }}</p>
+              <p v-else>Отель не назначен</p>
               <p>Цена:</p>
               <p>{{ tour.price }}руб.</p>
               <p>Минимальный возраст:</p>
               <p>{{ tour.legal_age }} лет</p>
             </div>
           </div>
-          <div class="program_tour_block"></div>
+          <div class="program_tour_block">
+            <div class="program_tour">
+              <h1>Программа тура:</h1>
+              <div v-if="programs.length === 0">
+                <p>Программа тура пока не доступна.</p>
+              </div>
+              <div v-else>
+                <div v-for="program in programs" :key="program.id">
+                  <p>{{ program.day }}</p>
+                  <div v-if="program.programme">
+                    <div
+                      v-for="programme in program.programme.split('\n')"
+                      :key="programme"
+                    >
+                      <span class="marker">•</span>
+                      {{ programme }}
+                    </div>
+                  </div>
+                  <div v-else>
+                    <p>Программа тура пока не доступна.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="tour_content_about">
-          <button type="submit" class="delete_button">Удалить</button>
+          <button
+            @click="deleteTour(tour.id)"
+            type="submit"
+            class="delete_button"
+          >
+            Удалить
+          </button>
           <div class="tour_content_forms">
             <div class="tours_update_block">
               <form @submit.prevent="updateTour" class="guids_create">
@@ -64,7 +95,7 @@
                     <option
                       v-for="status in statuses"
                       :key="status.id"
-                      :value="status.status"
+                      :value="status.id"
                     >
                       {{ status.status }}
                     </option>
@@ -114,16 +145,15 @@
                   <input
                     class="input_form"
                     type="text"
-                    v-model="formData.name"
+                    v-model="formData.day"
                     placeholder="Добавить название программы"
                   />
                   <textarea
                     class="textarea_form"
-                    v-model="formData.description"
+                    v-model="formData.programme"
                     placeholder="Добавить программу"
                   />
                 </div>
-
                 <button class="button_admin_pages" type="submit">
                   Добавить
                 </button>
@@ -152,8 +182,15 @@ export default {
   data() {
     return {
       formData: {
-        description: "",
+        day: "",
+        programme: "",
+        id_status: "",
+        id_guide: "",
+        id_housing: "",
+        legal_age: "",
+        price: "",
       },
+      showBlock: false,
       hotels: [],
       guids: [],
       tour: {},
@@ -165,6 +202,8 @@ export default {
       nameHotel: "",
       programTour: "",
       statusTour: "",
+      user: {},
+      programs: [],
     };
   },
   methods: {
@@ -186,24 +225,94 @@ export default {
     },
     async updateTour() {
       const token = this.$store.state.token;
-      const url = `http://127.0.0.1:8000/api/guide/update/${this.id}`;
+      const url = `http://127.0.0.1:8000/api/tour/update/${this.id}`;
       const response = await fetch(url, {
         method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          id_status: this.formData.id_status,
+          id_guide: this.formData.id_guide,
+          id_housing: this.formData.id_housing,
+          legal_age: this.formData.legal_age,
+          price: this.formData.price,
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        this.tour = result.tour;
+        this.formData.id_status = "";
+        this.formData.id_guide = "";
+        this.formData.id_housing = "";
+        this.formData.legal_age = "";
+        this.formData.price = "";
+        this.message = result.message;
+        console.log(result);
+        this.showBlock = true;
+
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
+      } else {
+        this.message = result.message;
+        this.showBlock = true;
+
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
+      }
+    },
+    async deleteTour(id) {
+      const token = this.$store.state.token;
+      const url = `http://127.0.0.1:8000/api/tour/delete/${id}`;
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const result = await response.json();
+      if (response.ok) {
+        this.message = result.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
+        this.$router.push("/admin/tours");
+      } else {
+        this.message = result.message;
+        this.showBlock = true;
+
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
+      }
+    },
+    async createProgram() {
+      const token = this.$store.state.token;
+      const url = `http://127.0.0.1:8000/api/program/create`;
+      const response = await fetch(url, {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          description: this.formData.description,
+          day: this.formData.day,
+          programme: this.formData.programme,
+          id_tour: this.id,
         }),
       });
       if (response.ok) {
         const result = await response.json();
-        this.guide = result.guide;
-        this.formData.description = "";
+        this.programs.push(result.program);
+        this.formData.day = "";
+        this.formData.programme = "";
         console.log(result);
       } else {
-        this.error = "Ошибка при обновлении гида";
+        this.error = "Ошибка при создании программы";
         console.error(this.error);
       }
     },

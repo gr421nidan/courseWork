@@ -1,0 +1,136 @@
+.content_tour_booked {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-top: 50px;
+}
+.content_booked_tour {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 78px;
+}
+.booked_create_block {
+  width: 720px;
+  height: 528px;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+}
+.booked_create_content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.content_tour_booked a {
+  text-decoration: underline;
+  font-size: 24px;
+  margin-left: 147px;
+}
+.content_tour_booked a:hover {
+  color: #aacae7;
+}
+.booked_create_content h2 {
+  font-size: 58px;
+  font-family: "Comfortaa", sans-serif;
+}
+.booked_create_content form {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  gap: 20px;
+}
+.booked_create_content form div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.booked_create_content form textarea {
+  min-height: 160px;
+  min-width: 720px;
+  max-height: 160px;
+  max-width: 720px;
+  padding: 25px;
+  border-radius: 30px;
+}
+.booked_create_content form button {
+  height: 60px;
+  border-radius: 30px;
+  background-color: #aacae7;
+  color: white;
+  font-size: 24px;
+}
+.input_booked {
+  width: 300px;
+  height: 60px;
+  border-radius: 20px;
+  padding: 25px;
+}
+.input_booked_small {
+  width: 180px;
+  height: 60px;
+  border-radius: 20px;
+  padding: 25px;
+}
+.label_small {
+  width: 180px;
+}
+.label_input_booked {
+  width: 300px;
+}
+
+.block_services {
+  width: 725px;
+  height: 350px;
+  padding: 48px 45px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  border-radius: 60px;
+  display: flex;
+  flex-direction: row;
+  font-size: 24px;
+  justify-content: space-between;
+}
+.block_services div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 290px;
+}
+.info_booked {
+  width: 350px;
+  height: 798px;
+  padding: 41px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  border-radius: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.info_booked_column {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.info_booked_column div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+.info_booked h3 {
+  font-size: 40px;
+  font-family: "Comfortaa", sans-serif;
+}
+.info_booked li {
+  font-size: 24px;
+}
+.info_booked p {
+  font-size: 18px;
+  width: 233px;
+}
+.circle_info {
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+  background-color: #0b1957;
+}

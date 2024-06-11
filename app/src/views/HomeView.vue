@@ -115,7 +115,7 @@
           <p>
             Бесплатный звонок:<br />
             Томск: +7 924 701-08-10<br />
-            email: tour.montoj@tsk.ru
+            email: tour.snowWord@tsk.ru
           </p>
         </div>
         <div class="column_contacts">
@@ -140,13 +140,18 @@
   </div>
   <div class="container" v-if="$store.getters.isAdmin">
     <div class="content-admin admin_page_content">
+      <div class="show-message" v-if="showBlock">
+        {{ message }}
+      </div>
       <div class="admin_header_content">
         <div>
           <h1>Личный кабинет</h1>
-          <span v-if="verifiedEmail">
-            <button type="submit">Подтвердить почту</button>
+          <span v-if="user.email_verified_at === null">
+            <button @click="confirmEmail" type="submit">
+              Подтвердить почту
+            </button>
           </span>
-          <span v-if="!verifiedEmail">
+          <span v-else>
             <p>{{ user.email }}</p>
           </span>
         </div>
@@ -183,9 +188,16 @@ import { getRegions } from "/src/mixins/getRegions";
 import { getGuids } from "/src/mixins/getGuids";
 import { getUserProfile } from "/src/mixins/getUserProfile";
 import { updateUserProfile } from "/src/mixins/updateUserProfile";
+import { confirmEmail } from "@/mixins/confirmEmail";
 
 export default {
-  mixins: [getRegions, getGuids, getUserProfile, updateUserProfile],
+  mixins: [
+    getRegions,
+    getGuids,
+    getUserProfile,
+    updateUserProfile,
+    confirmEmail,
+  ],
   props: {
     userId: {
       type: Number,
@@ -210,7 +222,6 @@ export default {
     this.getRegions();
     this.getGuids();
     if (this.$store.getters.isAuthenticated) {
-      this.updateUserProfile();
       this.getUserProfile();
     }
   },

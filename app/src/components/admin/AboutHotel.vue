@@ -3,13 +3,7 @@
     <div class="content-admin admin_page_content">
       <div class="admin_header_content">
         <div>
-          <h1>Отель - {{ hotelName }}</h1>
-          <span v-if="!verifiedEmail">
-            <button type="submit">Подтвердить почту</button>
-          </span>
-          <span v-if="verifiedEmail">
-            <p>myemail@email.com</p>
-          </span>
+          <h1>Отель - {{ hotel.name }}</h1>
         </div>
         <div class="line_element"></div>
       </div>
@@ -24,7 +18,13 @@
               {{ hotel.address }}
             </p>
           </div>
-          <button class="delete_button" type="submit">Удалить</button>
+          <button
+            @click="deleteHotel(hotel.id)"
+            class="delete_button"
+            type="submit"
+          >
+            Удалить
+          </button>
         </div>
         <div class="hotel_photos">
           <span class="photos_hotel_content">
@@ -62,8 +62,8 @@ export default {
       hotel: {
         photo: [],
       },
-      hotelName: "",
       currentPhotoIndex: 0,
+      user: {},
     };
   },
   methods: {
@@ -79,7 +79,6 @@ export default {
       });
       if (response.ok) {
         const result = await response.json();
-        this.hotelName = result.housing.name;
         this.hotel = result.housing;
       } else {
         this.error = "Ошибка";
@@ -98,6 +97,32 @@ export default {
         this.currentPhotoIndex++;
       } else {
         this.currentPhotoIndex = 0;
+      }
+    },
+    async deleteHotel(id) {
+      const token = this.$store.state.token;
+      const url = `http://127.0.0.1:8000/api/housing/delete/${id}`;
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const result = await response.json();
+      if (response.ok) {
+        this.message = result.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
+        this.$router.push("/admin/hotels");
+      } else {
+        this.message = result.message;
+        this.showBlock = true;
+
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
   },

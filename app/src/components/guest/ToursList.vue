@@ -5,9 +5,13 @@
         <div class="tours_content">
           <h1>Туры</h1>
           <div class="btns">
-            <button class="filters">Фильтрация</button>
-            <form action="" method="get" class="search_form">
-              <input type="text" placeholder="Название" />
+            <form
+              @submit.prevent="submitSearch"
+              action=""
+              method="get"
+              class="search_form"
+            >
+              <input v-model="searchQuery" type="text" placeholder="Название" />
               <button type="submit">
                 <img src="../../assets/images/icon_search.png" />
               </button>
@@ -19,7 +23,7 @@
         </div>
         <div class="grid_tours">
           <div class="card_tour" v-for="tour in tours" :key="tour.tour.id">
-            <img alt="photo_tour" :src="tour.image" />
+            <img alt="photo_tour" :src="tour.tour.photo" />
             <div class="title_card">
               <h4>{{ tour.tour.name }}</h4>
             </div>
@@ -46,18 +50,22 @@
   </div>
 </template>
 <script>
-import { getTours } from "/src/mixins/getTours";
+import { getTours, searchTours } from "/src/mixins/getTours"; // подставьте путь к вашему миксину
+
 export default {
-  mixins: [getTours],
+  mixins: [getTours, searchTours],
   data() {
     return {
       tours: [],
-      showBlock: false,
+      searchQuery: "",
     };
   },
   methods: {
     inTour(id) {
       this.$router.push({ name: "aboutTour", params: { id } });
+    },
+    async submitSearch() {
+      await this.searchTours(this.searchQuery);
     },
   },
   created() {

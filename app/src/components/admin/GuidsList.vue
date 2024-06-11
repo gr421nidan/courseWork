@@ -4,16 +4,13 @@
       <div class="admin_header_content">
         <div>
           <h1>Экскурсоводы</h1>
-          <span v-if="!verifiedEmail">
-            <button type="submit">Подтвердить почту</button>
-          </span>
-          <span v-if="verifiedEmail">
-            <p>myemail@email.com</p>
-          </span>
         </div>
         <div class="line_element"></div>
       </div>
       <div class="guids_content">
+        <div v-if="guids.length === 0">
+          <p>Экскурсоводы отсутствуют!</p>
+        </div>
         <div class="list_guids">
           <li
             v-for="guide in guids"
@@ -22,6 +19,9 @@
           >
             {{ guide.guide.name }} {{ guide.guide.surname }}
           </li>
+        </div>
+        <div v-if="showBlock" class="show-message">
+          {{ message }}
         </div>
         <div class="guids_create_block">
           <form @submit.prevent="createGuids" class="guids_create">
@@ -44,12 +44,16 @@
                 v-model="formData.description"
                 placeholder="Описание"
               />
-              <input
-                class="input_form"
-                type="file"
-                @change="onFileChange"
-                placeholder="Добавить фото"
-              />
+              <label for="file-upload" class="custom-file-upload">
+                Добавить фото
+                <input
+                  id="file-upload"
+                  class="input_file"
+                  type="file"
+                  @change="onFileChange"
+                  multiple
+                />
+              </label>
               <select v-model="formData.id_region" class="input_form">
                 <option disabled value="">Добавить регион</option>
                 <option
@@ -87,9 +91,9 @@ export default {
       guids: [],
       regions: [],
       showBlock: false,
-      verifiedEmail: false,
       error: "",
       message: "",
+      user: {},
     };
   },
   created() {

@@ -43,6 +43,7 @@
 }
 .search_form input {
   background: none;
+  width: 190px;
 }
 .search_form input::placeholder {
   color: white;
@@ -51,6 +52,15 @@
 }
 .search_form button {
   background: none;
+  position: relative;
+}
+.search_form button img {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .grid_tours {
   display: grid;
@@ -136,6 +146,7 @@
   justify-content: center;
   align-items: center;
   color: white;
+  font-size: 18px;
 }
 .status {
   font-weight: bold;
@@ -146,4 +157,322 @@
 }
 .btn_tour:hover {
   cursor: pointer;
+}
+/*о конкретном туре*/
+
+.about_tour_content {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.about_tour_content > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+.about_tour_content a {
+  text-decoration: underline;
+  font-size: 24px;
+}
+.about_tour_content a:hover {
+  color: #aacae7;
+}
+.block_about_tour_content {
+  width: 1300px;
+  height: 700px;
+}
+.block_about_tour_content img {
+  width: 1300px;
+  height: 700px;
+  position: absolute;
+  border-radius: 60px;
+}
+.block_about_tour {
+  position: relative;
+  background-color: #aacae7;
+  width: 400px;
+  height: 700px;
+  border-radius: 60px 0 0 60px;
+  padding: 60px 40px;
+}
+.block_about_tour > p:first-child {
+  color: white;
+  font-size: 24px;
+}
+.block_about_tour_text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 18px;
+}
+.block_about_tour h1 {
+  font-size: 58px;
+  font-family: "Comfortaa", sans-serif;
+  color: white;
+  text-shadow: 0 4px 4px #0b1957;
+}
+.block_about_tour_text p:nth-of-type(1),
+.block_about_tour_text p:nth-of-type(2) {
+  font-size: 24px;
+}
+.block_about_tour_text p:nth-of-type(3) {
+  font-weight: bold;
+}
+
+.program_tour_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 80px;
+  align-items: center;
+}
+.blocks_about_tour_program {
+  display: flex;
+  gap: 200px;
+}
+.enabled_in_tour {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../images/element_background_program_tour.png");
+  background-size: cover;
+  background-position: center;
+  height: 635px;
+  width: 505px;
+  padding: 59px 65px;
+  gap: 20px;
+}
+.blocks_about_tour {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.enabled_in_tour_text {
+  text-align: center;
+}
+.enabled_in_tour_text div {
+  text-align: left;
+  font-size: 24px;
+}
+.enabled_in_tour_text li {
+  margin-bottom: 8px;
+}
+.marker {
+  margin-right: 20px;
+}
+.enabled_in_tour h3 {
+  font-size: 40px;
+}
+.program_tour {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 630px;
+  font-size: 18px;
+}
+.program_tour > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.program_tour h1 {
+  font-size: 58px;
+  font-family: "Comfortaa", sans-serif;
+}
+.program_tour p {
+  font-size: 24px;
+  font-family: "Comfortaa", sans-serif;
+  margin-bottom: 30px;
+}
+.program_btn {
+  width: 300px;
+  height: 70px;
+  background-color: #0b1957;
+  border-radius: 60px;
+  color: white;
+  font-size: 24px;
+}
+#block_about_price {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-size: 18px;
+}
+.circle {
+  background-color: #aacae7;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.price_info {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 31px 26px;
+  transition: opacity 0.3s ease-in-out;
+  width: 400px;
+  height: 150px;
+}
+
+.circle:hover .price_info {
+  visibility: visible;
+  opacity: 1;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  border-radius: 60px;
+}
+.tour_info_block {
+  width: 1436px;
+  height: 151px;
+  background-color: #aacae7;
+  border-radius: 60px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+  padding: 20px 53px;
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  font-size: 18px;
+}
+.tour_info_block h4 {
+  font-size: 24px;
+  font-family: "Comfortaa", sans-serif;
+}
+.info_tour_column_one {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.info_tour_column_two {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.info_tour_column_three {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#address_block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hotel_content_tour {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  margin-top: 90px;
+}
+.hotel_content_tour h1 {
+  font-size: 58px;
+  font-family: "Comfortaa", sans-serif;
+  text-align: center;
+}
+.hotel_info {
+  display: flex;
+  flex-direction: row;
+  gap: 128px;
+}
+.hotel_info_text {
+  font-size: 24px;
+  width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.hotel_info_text div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.block_photo {
+  width: 728px;
+  height: 600px;
+  border-radius: 60px;
+  background-color: #aacae7;
+}
+.hotel_photos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.photos_hotel_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feedback_content {
+  margin-top: 70px;
+}
+.head_feedback_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 90px;
+}
+.head_feedback_content h1 {
+  font-size: 58px;
+  font-family: "Comfortaa", sans-serif;
+}
+.btn_feedback {
+  width: 300px;
+  height: 70px;
+  border-radius: 60px;
+  background-color: #aacae7;
+  font-size: 18px;
+  color: #0b1957;
+}
+.card_feedback {
+  width: 781px;
+  border-bottom: #0b1957 1px solid;
+  padding-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  margin-bottom: 30px;
+}
+.card_feedback h3 {
+  font-size: 40px;
+}
+.card_feedback p {
+  font-size: 24px;
+}
+.card_feedback > div:first-child {
+  display: flex;
+  justify-content: space-between;
+}
+.photos_feedback {
+  display: flex;
+  gap: 40px;
+}
+.photos_feedback img {
+  width: 180px;
+  height: 200px;
+  border-radius: 60px;
+}
+.rating_area_static {
+  display: flex;
+}
+
+.rating_area_static label {
+  font-size: 32px;
+  color: lightgrey;
+  cursor: default;
+}
+
+.rating_area_static label.filled {
+  color: gold;
 }

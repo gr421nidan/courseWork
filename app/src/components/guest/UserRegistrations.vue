@@ -38,7 +38,7 @@
           </div>
 
           <div class="confirmed_btn">
-            <input type="checkbox" />
+            <input type="checkbox" v-model="isCheckboxChecked" />
             <span>
               Я соглашаюсь на передачу персональных данных согласно политике
               конфиденциальности и пользовательскому соглашению</span
@@ -55,8 +55,8 @@
         </form>
       </div>
     </div>
-    <div class="show" v-if="showBlock">
-      {{ error }}
+    <div class="show-message" v-if="showBlock">
+      {{ message }}
     </div>
   </div>
 </template>
@@ -72,44 +72,66 @@ export default {
         email: "",
         password: "",
       },
-      error: {},
+      isCheckboxChecked: false,
+      message: "",
       showBlock: "",
     };
   },
   methods: {
     async register() {
+      if (!this.isCheckboxChecked) {
+        this.message =
+          "Вы должны согласиться с условиями политики конфиденциальности.";
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
+        return;
+      }
       const user = {
         surname: this.formData.surname,
         name: this.formData.name,
-        patronymic: this.formData.patronymic,
         email: this.formData.email,
         password: this.formData.password,
       };
+      if (this.formData.patronymic) {
+        user.patronymic = this.formData.patronymic;
+      }
       const url = "http://127.0.0.1:8000/api/register";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(user),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        this.$router.push("/login"); // Перенаправляем пользователя на авторизацию
-      } else {
-        this.formData.surname = "";
-        this.formData.name = "";
-        this.formData.patronymic = "";
-        this.formData.email = "";
-        this.formData.password = "";
-        this.error = result.errors;
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+
+        if (response.ok) {
+          this.$router.push("/login");
+        } else {
+          this.message = "Ошибка регистрации, проверьте поля данных!";
+          this.showBlock = true;
+
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+        }
+      } catch (error) {
+        this.message = "Произошла ошибка при регистрации. Попробуйте позже.";
         this.showBlock = true;
 
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-        console.error("Ошибка:", this.error);
+      } finally {
+        // Сброс полей формы независимо от результата
+        this.formData.surname = "";
+        this.formData.name = "";
+        this.formData.patronymic = "";
+        this.formData.email = "";
+        this.formData.password = "";
       }
     },
   },

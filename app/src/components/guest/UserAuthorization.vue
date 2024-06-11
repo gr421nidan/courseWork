@@ -63,28 +63,37 @@ export default {
           },
           body: JSON.stringify(user),
         });
+
         const result = await response.json();
+
         if (response.ok) {
           localStorage.setItem("token", result.access_token);
+          localStorage.setItem("role", JSON.stringify(result.id_role));
+          localStorage.setItem("userId", result.user.id);
+
           this.$store.dispatch("login", {
             token: result.access_token,
             role: result.id_role,
             userId: result.user.id,
           });
           this.$router.push("/");
+          window.location.reload();
         } else {
-          throw new Error(result.message || "Ошибка авторизации");
+          this.message = "Ошибка авторизации, проверьте поля ввода!";
+          this.showBlock = true;
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
         }
       } catch (error) {
-        this.$store.commit("AUTH_ERROR");
-        this.formData.email = "";
-        this.formData.password = "";
-        this.message = error.message;
+        this.message = "Произошла ошибка при авторизации. Попробуйте позже.";
         this.showBlock = true;
-
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
+      } finally {
+        this.formData.email = "";
+        this.formData.password = "";
       }
     },
   },

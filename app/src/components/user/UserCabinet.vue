@@ -19,10 +19,12 @@
                 >Мои туры</a
               >
             </div>
-            <span v-if="verifiedEmail">
-              <button class="btn_cabinet_email">Подтвердить почту</button>
+            <span v-if="user.email_verified_at === null">
+              <button @click="confirmEmail" class="btn_cabinet_email">
+                Подтвердить почту
+              </button>
             </span>
-            <span v-if="!verifiedEmail">
+            <span v-else>
               <p>{{ user.email }}</p>
             </span>
           </div>
@@ -32,6 +34,9 @@
           <div class="profile_block">
             <h3>Персональные данные</h3>
             <form class="form_profile" @submit.prevent="updateUserProfile">
+              <div class="show-message" v-if="showBlock">
+                {{ message }}
+              </div>
               <div>
                 <label>Фамилия</label>
                 <input v-model="user.surname" />
@@ -59,26 +64,41 @@
           </div>
         </section>
         <section v-if="activeSection === 'myTours'" class="my_tours">
+          <div class="show-message" v-if="showBlock">
+            {{ message }}
+          </div>
           <div class="my_tours_block">
             <h2>Мои забронированные туры</h2>
-            <div class="my_application">
+            <div
+              class="my_application"
+              v-for="application in applications"
+              :key="application.application.id"
+            >
               <div class="my_application_text">
-                <h3>Просторы Шерегеша</h3>
-                <p>18 - 24 декабря</p>
+                <h3>{{ application.application.tour_name }}</h3>
+                <p>
+                  с {{ application.application.tour_date_start }} по
+                  {{ application.application.tour_date_end }}
+                </p>
                 <p>Пожелания:</p>
-                <p>Поселить в комнату с односпальными кроватями.</p>
-                <p>Количество человек:<span>2</span></p>
-                <p>84 000 <span>руб.</span></p>
-                <p>20.11.2023</p>
+                <p>{{ application.application.wishes }}</p>
+                <p>
+                  Количество взрослых:{{
+                    application.application.count_adults
+                  }}
+                  Количество детей:{{ application.application.count_children }}
+                </p>
+                <p>{{ application.application.price_end }} <span>руб.</span></p>
+                <p>{{ application.application.date_application }}</p>
               </div>
               <div class="my_application_info">
                 <div>
-                  <p>На рассмотрении</p>
+                  <p>{{ application.application.status_application }}</p>
                   <div class="circle_application">?</div>
                 </div>
-                <span v-if="!applicationApproved">
-                  <button>Отменить</button>
-                </span>
+                <button @click="deleteApplication(application.application.id)">
+                  Отменить
+                </button>
               </div>
             </div>
           </div>
@@ -91,29 +111,77 @@
 import { getUserProfile } from "/src/mixins/getUserProfile";
 import { updateUserProfile } from "/src/mixins/updateUserProfile";
 import { ref } from "vue";
+import { confirmEmail, verificationEmail } from "@/mixins/confirmEmail";
 
 export default {
-  mixins: [getUserProfile, updateUserProfile],
-  props: {
-    userId: {
-      type: Number,
-      required: true,
-    },
-  },
+  mixins: [getUserProfile, updateUserProfile, confirmEmail, verificationEmail],
   data() {
     return {
       activeSection: ref("profile"),
       user: {},
+      applications: {},
+      showBlock: false,
     };
   },
   mounted() {
     this.getUserProfile();
-    this.updateUserProfile();
   },
   methods: {
     setActiveSection(section) {
       this.activeSection = section;
     },
+    async getAboutMyApplication() {
+      const token = this.$store.state.token;
+      const url = "http://127.0.0.1:8000/api/booked/user";
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) {
+          this.applications = await response.json();
+        } else {
+          throw new Error("Ошибка при получении данных");
+        }
+      } catch (error) {
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
+      }
+    },
+    async deleteApplication(id) {
+      const token = this.$store.state.token;
+      const url = `http://127.0.0.1:8000/api/booked/delete/${id}`;
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const result = await response.json();
+      if (response.ok) {
+        this.message = result.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
+      } else {
+        this.message = result.message;
+        this.showBlock = true;
+
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
+      }
+    },
+  },
+  created() {
+    this.getAboutMyApplication();
   },
 };
 </script>
