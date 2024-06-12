@@ -1,28 +1,35 @@
+// app/src/mixins/getUserProfile.js
 export const getUserProfile = {
   data() {
     return {
-      error: "",
+      showBlock: false,
       message: "",
+      user: {},
     };
   },
   methods: {
     async getUserProfile() {
-      const userId = this.$store.state.userId;
       const token = this.$store.state.token;
-      const url = `http://127.0.0.1:8000/api/user/${userId}`;
+      const url = `http://127.0.0.1:8000/api/user/me`;
       try {
         const response = await fetch(url, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
+            Accept: "application/json",
           },
         });
         if (response.ok) {
-          const result = await response.json();
-          this.user = result[0];
+          this.user = await response.json();
+        } else {
+          throw new Error("Ошибка при получении данных");
         }
       } catch (error) {
-        console.error("Ошибка при получении информации о пользователе:", error);
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
   },

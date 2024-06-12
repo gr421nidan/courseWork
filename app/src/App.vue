@@ -1,3 +1,4 @@
+<!--app/src/App.vue-->
 <template>
   <div id="app" v-if="isAuthRelatedPage">
     <router-view></router-view>
@@ -97,11 +98,7 @@
             <router-link to="/" :class="{ active: $route.path === '/' }"
               >Главная</router-link
             >
-            <router-link
-              :to="'/user/' + $store.state.userId"
-              :class="{ active: $route.params.userId === $store.state.userId }"
-              >Личный кабинет</router-link
-            >
+            <router-link to="/user/me">Личный кабинет</router-link>
             <router-link
               to="/tours"
               :class="{ active: $route.path === '/tours' }"
@@ -153,11 +150,7 @@
       </span>
       <span class="footer_nav" v-if="$store.getters.isAuthenticated">
         <router-link to="/">Главная</router-link>
-        <router-link
-          :to="'/user/' + $store.state.userId"
-          :class="{ active: $route.params.userId === $store.state.userId }"
-          >Личный кабинет</router-link
-        >
+        <router-link to="/user/me">Личный кабинет</router-link>
         <router-link to="/tours">Туры</router-link>
         <a href="#" @click.prevent="scrollToSection('regions')">Регионы</a>
         <a href="#" @click.prevent="scrollToSection('about')">О нас</a>
@@ -171,11 +164,10 @@
     </div>
   </footer>
 </template>
-
-<style></style>
 <script>
+import store from "@/store";
+
 export default {
-  props: ["userId"],
   data() {
     return {
       isAuthenticated: false,
@@ -188,6 +180,9 @@ export default {
     $route(to) {
       this.checkAuthRelatedPage(to.path);
     },
+  },
+  created() {
+    this.$store.dispatch("fetchUserData");
   },
   methods: {
     checkAuthRelatedPage(path) {

@@ -10,6 +10,11 @@
   justify-content: center;
   gap: 78px;
 }
+.content_booked_tour>div:first-child{
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
 .booked_create_block {
   width: 720px;
   height: 528px;

@@ -1,3 +1,4 @@
+<!--app/src/components/admin/AboutTourAdmin.vue-->
 <template>
   <div class="container">
     <div class="content-admin admin_page_content">
@@ -107,7 +108,7 @@
                       :key="guide.guide.id"
                       :value="guide.guide.id"
                     >
-                      {{ guide.guide.name }}{{ guide.guide.surname }}
+                      {{ guide.guide.name }} {{ guide.guide.surname }}
                     </option>
                   </select>
                   <select v-model="formData.id_housing" class="input_form">
@@ -195,7 +196,6 @@ export default {
       guids: [],
       tour: {},
       statuses: [],
-      error: "",
       message: "",
       nameRegion: "",
       nameGuide: "",
@@ -210,55 +210,75 @@ export default {
     async getStatuses() {
       const token = this.$store.state.token;
       const url = "http://127.0.0.1:8000/api/status";
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        this.statuses = await response.json();
-      } else {
-        this.error = "Ошибка";
-        console.error(this.error);
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          this.statuses = await response.json();
+        } else {
+          throw new Error("Ошибка при получении данных");
+        }
+      } catch (error) {
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
     async updateTour() {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/tour/update/${this.id}`;
-      const response = await fetch(url, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          id_status: this.formData.id_status,
-          id_guide: this.formData.id_guide,
-          id_housing: this.formData.id_housing,
-          legal_age: this.formData.legal_age,
-          price: this.formData.price,
-        }),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        this.tour = result.tour;
-        this.formData.id_status = "";
-        this.formData.id_guide = "";
-        this.formData.id_housing = "";
-        this.formData.legal_age = "";
-        this.formData.price = "";
-        this.message = result.message;
-        console.log(result);
+      const requestData = {};
+      if (this.formData.id_status !== "") {
+        requestData.id_status = this.formData.id_status;
+      }
+      if (this.formData.id_guide !== "") {
+        requestData.id_guid = this.formData.id_guide;
+      }
+      if (this.formData.id_housing !== "") {
+        requestData.id_housing = this.formData.id_housing;
+      }
+      if (this.formData.legal_age !== "") {
+        requestData.legal_age = this.formData.legal_age;
+      }
+      if (this.formData.price !== "") {
+        requestData.price = this.formData.price;
+      }
+      try {
+        const response = await fetch(url, {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        });
+        const result = await response.json();
+        if (response.ok) {
+          this.formData = {
+            id_status: "",
+            id_guide: "",
+            price: "",
+            id_housing: "",
+            legal_age: "",
+          };
+          this.tour = result.tour;
+          this.message = result.message;
+          this.showBlock = true;
+          await this.getAboutTour();
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        this.message = error.message;
         this.showBlock = true;
-
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-      } else {
-        this.message = result.message;
-        this.showBlock = true;
-
+      } finally {
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
@@ -267,24 +287,27 @@ export default {
     async deleteTour(id) {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/tour/delete/${id}`;
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-      if (response.ok) {
-        this.message = result.message;
+      try {
+        const response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const result = await response.json();
+        if (response.ok) {
+          this.message = result.message;
+          this.showBlock = true;
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+          await this.$router.push("/admin/tours");
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        this.message = error.message;
         this.showBlock = true;
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-        this.$router.push("/admin/tours");
-      } else {
-        this.message = result.message;
-        this.showBlock = true;
-
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
@@ -293,27 +316,38 @@ export default {
     async createProgram() {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/program/create`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          day: this.formData.day,
-          programme: this.formData.programme,
-          id_tour: this.id,
-        }),
-      });
-      if (response.ok) {
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            day: this.formData.day,
+            programme: this.formData.programme,
+            id_tour: this.id,
+          }),
+        });
         const result = await response.json();
-        this.programs.push(result.program);
-        this.formData.day = "";
-        this.formData.programme = "";
-        console.log(result);
-      } else {
-        this.error = "Ошибка при создании программы";
-        console.error(this.error);
+        if (response.ok) {
+          await this.getAboutTour();
+          this.formData.day = "";
+          this.formData.programme = "";
+          this.message = result.message;
+          this.showBlock = true;
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
   },

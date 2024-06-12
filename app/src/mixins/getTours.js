@@ -1,29 +1,37 @@
+// app/src/mixins/getTours.js
 export const getTours = {
   data() {
     return {
       tours: [],
-      error: "",
+      message: "",
+      showBlock: false,
     };
   },
   methods: {
     async getTours() {
       const url = "http://127.0.0.1:8000/api/tours";
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        this.tours = await response.json();
-      } else {
-        this.error = "Ошибка";
-        console.error(this.error);
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        });
+        if (response.ok) {
+          this.tours = await response.json();
+        } else {
+          throw new Error("Ошибка при получении данных");
+        }
+      } catch (error) {
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
   },
 };
-
 export const searchTours = {
   methods: {
     async searchTours(query) {
@@ -32,7 +40,7 @@ export const searchTours = {
       if (response.ok) {
         this.tours = await response.json();
       } else {
-        console.error("Ошибка при выполнении поиска");
+        this.message = "Ошибка при выполнении поиска";
       }
     },
   },

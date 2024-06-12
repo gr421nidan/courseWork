@@ -80,6 +80,11 @@
   align-items: center;
   gap: 38px;
 }
+.block_confirmApplication form h2 {
+  font-size: 40px;
+  font-family: "Comfortaa", sans-serif;
+  text-align: center;
+}
 .block_confirmApplication form div {
   display: flex;
   flex-direction: column;

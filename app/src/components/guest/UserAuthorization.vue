@@ -1,3 +1,4 @@
+<!--app/src/components/guest/UserAuthorization.vue-->
 <template>
   <div class="background_image">
     <div class="login_block">
@@ -18,12 +19,10 @@
               placeholder="Введите пароль"
             />
           </div>
-
           <div class="buttons">
             <button class="btn_auth_related" type="submit">Войти</button>
             <p>Впервые у нас?</p>
             <router-link to="/register">Зарегистрироваться</router-link>
-            <router-link to="/reset-password">Сброс пароля</router-link>
             <router-link to="/">Вернуться назад</router-link>
           </div>
         </form>
@@ -44,7 +43,6 @@ export default {
       },
       message: "",
       showBlock: false,
-      errors: {},
     };
   },
   methods: {
@@ -63,35 +61,30 @@ export default {
           },
           body: JSON.stringify(user),
         });
-
         const result = await response.json();
-
         if (response.ok) {
           localStorage.setItem("token", result.access_token);
-          localStorage.setItem("role", JSON.stringify(result.id_role));
-          localStorage.setItem("userId", result.user.id);
 
           this.$store.dispatch("login", {
             token: result.access_token,
             role: result.id_role,
-            userId: result.user.id,
           });
           this.$router.push("/");
-          window.location.reload();
         } else {
-          this.message = "Ошибка авторизации, проверьте поля ввода!";
+          this.message = result.message || "Ошибка авторизации, проверьте поля ввода!";
           this.showBlock = true;
           setTimeout(() => {
             this.showBlock = false;
           }, 3000);
         }
       } catch (error) {
-        this.message = "Произошла ошибка при авторизации. Попробуйте позже.";
+        this.message =
+          error.message ||
+          "Произошла ошибка при авторизации. Попробуйте позже.";
         this.showBlock = true;
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-      } finally {
         this.formData.email = "";
         this.formData.password = "";
       }

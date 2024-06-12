@@ -1,3 +1,4 @@
+<!--app/src/views/HomeView.vue-->
 <template>
   <div class="container" v-if="!$store.getters.isAdmin">
     <section id="main">
@@ -198,12 +199,6 @@ export default {
     updateUserProfile,
     confirmEmail,
   ],
-  props: {
-    userId: {
-      type: Number,
-      required: true,
-    },
-  },
   data() {
     return {
       regions: [],
@@ -221,6 +216,8 @@ export default {
   created() {
     this.getRegions();
     this.getGuids();
+  },
+  mounted() {
     if (this.$store.getters.isAuthenticated) {
       this.getUserProfile();
     }

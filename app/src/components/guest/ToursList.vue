@@ -1,3 +1,4 @@
+<!--app/src/components/guest/ToursList.vue-->
 <template>
   <div class="container">
     <div class="content">
@@ -17,6 +18,9 @@
               </button>
             </form>
           </div>
+        </div>
+        <div class="show-message" v-if="showBlock">
+          {{ message }}
         </div>
         <div v-if="tours.length === 0">
           <p>Туры отсутствуют!</p>
@@ -50,7 +54,7 @@
   </div>
 </template>
 <script>
-import { getTours, searchTours } from "/src/mixins/getTours"; // подставьте путь к вашему миксину
+import { getTours, searchTours } from "/src/mixins/getTours";
 
 export default {
   mixins: [getTours, searchTours],
@@ -58,6 +62,8 @@ export default {
     return {
       tours: [],
       searchQuery: "",
+      message: "",
+      showBlock: false,
     };
   },
   methods: {

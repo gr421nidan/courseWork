@@ -1,3 +1,4 @@
+<!--app/src/components/admin/AboutBookingTour.vue-->
 <template>
   <div class="container">
     <div class="content-admin admin_page_content">
@@ -96,6 +97,7 @@ export default {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
+            Accept: "application/json",
           },
         });
         if (response.ok) {
@@ -125,7 +127,6 @@ export default {
           const result = await response.json();
           this.details = result.details;
           this.application = result.booked;
-          console.log(result);
         } else {
           throw new Error("Ошибка при получении данных");
         }
@@ -146,14 +147,15 @@ export default {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
+            Accept: "application/json",
           },
           body: JSON.stringify(this.formData),
         });
         const result = await response.json();
         if (response.ok) {
           this.message = result.message;
-          console.log(result);
           this.showBlock = true;
+          this.formData={};
           setTimeout(() => {
             this.showBlock = false;
           }, 3000);

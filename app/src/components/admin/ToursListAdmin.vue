@@ -1,3 +1,4 @@
+<!--app/src/components/admin/ToursListAdmin.vue-->
 <template>
   <div class="container">
     <div class="content-admin admin_page_content">
@@ -127,7 +128,6 @@ export default {
       regions: [],
       showBlock: false,
       verifiedEmail: false,
-      error: "",
       message: "",
       user: {},
     };
@@ -141,20 +141,20 @@ export default {
       this.formData.photo = event.target.files[0];
     },
     async createTours() {
-      try {
-        const formData = new FormData();
-        formData.append("name", this.formData.name);
-        formData.append("description", this.formData.description);
-        formData.append("price", this.formData.price);
-        formData.append("legal_age", this.formData.legal_age);
-        formData.append("enabled", this.formData.enabled);
-        formData.append("date_start", this.formData.date_start);
-        formData.append("date_end", this.formData.date_end);
-        formData.append("photo", this.formData.photo);
-        formData.append("id_region", this.formData.id_region);
+      const formData = new FormData();
+      formData.append("name", this.formData.name);
+      formData.append("description", this.formData.description);
+      formData.append("price", this.formData.price);
+      formData.append("legal_age", this.formData.legal_age);
+      formData.append("enabled", this.formData.enabled);
+      formData.append("date_start", this.formData.date_start);
+      formData.append("date_end", this.formData.date_end);
+      formData.append("photo", this.formData.photo);
+      formData.append("id_region", this.formData.id_region);
 
-        const token = this.$store.state.token;
-        const url = "http://127.0.0.1:8000/api/tour/create";
+      const token = this.$store.state.token;
+      const url = "http://127.0.0.1:8000/api/tour/create";
+      try {
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -163,11 +163,11 @@ export default {
           },
           body: formData,
         });
-
         const result = await response.json();
-
         if (response.ok) {
+          this.tour = result.tour;
           this.message = result.message;
+          console.log(result);
           this.showBlock = true;
           setTimeout(() => {
             this.showBlock = false;
@@ -185,14 +185,10 @@ export default {
             id_region: "",
           };
         } else {
-          this.message = result.message;
-          this.showBlock = true;
-          setTimeout(() => {
-            this.showBlock = false;
-          }, 3000);
+          throw new Error(result.message);
         }
       } catch (error) {
-        this.message = "Серверная ошибка.";
+        this.message = error.message;
         this.showBlock = true;
         setTimeout(() => {
           this.showBlock = false;

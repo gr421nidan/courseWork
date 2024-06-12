@@ -1,3 +1,4 @@
+<!--app/src/components/admin/AboutHotel.vue-->
 <template>
   <div class="container">
     <div class="content-admin admin_page_content">
@@ -6,6 +7,9 @@
           <h1>Отель - {{ hotel.name }}</h1>
         </div>
         <div class="line_element"></div>
+      </div>
+      <div v-if="showBlock" class="show-message">
+        {{ message }}
       </div>
       <div class="hotel_content">
         <div class="hotel_info_text">
@@ -64,25 +68,34 @@ export default {
       },
       currentPhotoIndex: 0,
       user: {},
+      message: "",
+      showBlock: false,
     };
   },
   methods: {
     async getAboutHotel() {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/housing/admin/${this.id}`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const result = await response.json();
-        this.hotel = result.housing;
-      } else {
-        this.error = "Ошибка";
-        console.error(this.error);
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        });
+        if (response.ok) {
+          const result = await response.json();
+          this.hotel = result.housing;
+        } else {
+          throw new Error("Ошибка при получении данных");
+        }
+      } catch (error) {
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
     backPhoto() {
@@ -102,24 +115,27 @@ export default {
     async deleteHotel(id) {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/housing/delete/${id}`;
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-      if (response.ok) {
-        this.message = result.message;
+      try {
+        const response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const result = await response.json();
+        if (response.ok) {
+          this.message = result.message;
+          this.showBlock = true;
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+          this.$router.push("/admin/hotels");
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        this.message = error.message;
         this.showBlock = true;
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-        this.$router.push("/admin/hotels");
-      } else {
-        this.message = result.message;
-        this.showBlock = true;
-
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);

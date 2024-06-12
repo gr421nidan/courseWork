@@ -1,3 +1,4 @@
+<!--app/src/components/user/BookingTour.vue-->
 <template>
   <div class="container">
     <div class="content">
@@ -7,8 +8,8 @@
           <div>
             <div class="booked_create_block">
               <div class="booked_create_content">
-                <h2>Просторы Шерегеша</h2>
-                <p>Даты тура: с 2024-12-18 по 2024-12-24</p>
+                <h2>{{ tour.name }}</h2>
+                <p>с {{ tour.date_start }} по {{ tour.date_end }}</p>
                 <div class="show-message" v-if="showBlock">
                   {{ message }}
                 </div>
@@ -124,6 +125,9 @@ export default {
       message: "",
     };
   },
+  created() {
+    this.getAboutTour();
+  },
   methods: {
     async BookingTour() {
       const booking = {
@@ -142,8 +146,9 @@ export default {
         const response = await fetch(url, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
           },
           body: JSON.stringify(booking),
         });
@@ -154,12 +159,16 @@ export default {
           setTimeout(() => {
             this.showBlock = false;
           }, 3000);
-          this.$router.push(`/tour/${this.id}`);
+          this.$router.push("/user/me");
         } else {
-          throw new Error("Ошибка при отправке данных");
+          throw new Error(result.message || "Ошибка при отправке данных");
         }
       } catch (error) {
-        console.error(error);
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
   },

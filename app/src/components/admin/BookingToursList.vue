@@ -1,3 +1,4 @@
+<!--app/src/components/admin/BookingToursList.vue-->
 <template>
   <div class="container">
     <div class="content-admin admin_page_content">
@@ -6,6 +7,9 @@
           <h1>Заявки</h1>
         </div>
         <div class="line_element"></div>
+      </div>
+      <div class="show-message" v-if="showBlock">
+        {{ message }}
       </div>
       <div>
         <div class="list_booking_tours">
@@ -41,32 +45,40 @@
 </template>
 <script>
 import { getUserProfile } from "/src/mixins/getUserProfile";
-import { confirmEmail } from "@/mixins/confirmEmail";
 
 export default {
-  mixins: [getUserProfile, confirmEmail],
+  mixins: [getUserProfile],
   data() {
     return {
       applications: [],
       user: {},
+      message: "",
+      showBlock: false,
     };
   },
   methods: {
     async getUsersApplications() {
       const token = this.$store.state.token;
       const url = "http://127.0.0.1:8000/api/booked";
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        this.applications = await response.json();
-        console.log(this.applications);
-      } else {
-        this.error = "Ошибка";
-        console.error(this.error);
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        });
+        if (response.ok) {
+          this.applications = await response.json();
+        } else {
+          throw new Error("Ошибка при получении данных");
+        }
+      } catch (error) {
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
     confirmApplication(id) {
@@ -76,7 +88,6 @@ export default {
   created() {
     this.getUsersApplications();
     this.getUserProfile();
-    this.confirmEmail();
   },
 };
 </script>

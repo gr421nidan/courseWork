@@ -1,3 +1,4 @@
+<!--app/src/components/admin/HotelsList.vue-->
 <template>
   <div class="container">
     <div class="content-admin admin_page_content">
@@ -128,33 +129,35 @@ export default {
 
       const token = this.$store.state.token;
       const url = "http://127.0.0.1:8000/api/housing/photo";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-        body: formData,
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        this.message = result.message;
-        this.showBlock = true;
-        this.formData = {
-          name: "",
-          address: "",
-          photo: [],
-          description: "",
-          id_region: "",
-        };
-        await this.getHotels();
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-      } else {
-        this.message = result.message;
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+          body: formData,
+        });
+        const result = await response.json();
+        if (response.ok) {
+          this.message = result.message;
+          this.showBlock = true;
+          this.formData = {
+            name: "",
+            address: "",
+            photo: [],
+            description: "",
+            id_region: "",
+          };
+          await this.getHotels();
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        this.message = error.message;
         this.showBlock = true;
         setTimeout(() => {
           this.showBlock = false;

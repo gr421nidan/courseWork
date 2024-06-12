@@ -112,8 +112,9 @@
   padding: 20px 33px;
   opacity: 1;
   transition: opacity 0.9s;
-  color: #0b1957;
+  color: #ffffff;
   font-family: "Comfortaa", sans-serif;
+  text-shadow: 0 4px 4px #0b1957;
 }
 .line {
   width: 141px;
@@ -128,7 +129,7 @@
 }
 .card_about_tour h4 {
   font-size: 18px;
-}
+ }
 .about_tour {
   font-size: 18px;
   line-height: 10px;
@@ -231,6 +232,7 @@
 .blocks_about_tour_program {
   display: flex;
   gap: 200px;
+  margin-bottom: 50px;
 }
 .enabled_in_tour {
   display: flex;
@@ -341,6 +343,7 @@
   flex-direction: row;
   gap: 80px;
   font-size: 18px;
+  margin-bottom: 30px;
 }
 .tour_info_block h4 {
   font-size: 24px;
@@ -475,4 +478,7 @@
 
 .rating_area_static label.filled {
   color: gold;
+}
+.no_reviews p{
+  font-size: 24px;
 }

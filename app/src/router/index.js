@@ -1,14 +1,13 @@
+// app/src/router/index.js
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import UserRegistrations from "@/components/guest/UserRegistrations.vue";
 import UserAuthorization from "@/components/guest/UserAuthorization.vue";
-import PasswordRecovery from "@/components/guest/PasswordRecovery.vue";
 import UserFeedback from "@/components/user/UserFeedback.vue";
 import AboutTour from "@/components/guest/AboutTour.vue";
 import ToursListInRegions from "@/components/guest/ToursListInRegion.vue";
 import UserCabinet from "@/components/user/UserCabinet.vue";
 import BookingTour from "@/components/user/BookingTour.vue";
-import PasswordReset from "@/components/guest/PasswordReset.vue";
 import ToursListAdmin from "@/components/admin/ToursListAdmin.vue";
 import AboutTourAdmin from "@/components/admin/AboutTourAdmin.vue";
 import RegionsList from "@/components/admin/RegionsList.vue";
@@ -20,6 +19,7 @@ import GuidsList from "@/components/admin/GuidsList.vue";
 import ToursList from "@/components/guest/ToursList.vue";
 import store from "../store";
 import AboutHotel from "@/components/admin/AboutHotel.vue";
+import EmailConfirm from "@/components/user/EmailConfirm.vue";
 const ifNotAuthenticated = (to, from, next) => {
   if (!store.getters.isAuthenticated) {
     next();
@@ -61,16 +61,9 @@ const routes = [
     beforeEnter: ifNotAuthenticated,
   },
   {
-    path: "/password-recovery",
-    name: "recovery",
-    component: PasswordRecovery,
-    beforeEnter: ifNotAuthenticated,
-  },
-  {
-    path: "/reset-password",
-    name: "reset",
-    component: PasswordReset,
-    beforeEnter: ifNotAuthenticated,
+    path: "/confirm",
+    name: "emailConfirm",
+    component: EmailConfirm,
   },
   {
     path: "/tours",
@@ -97,13 +90,10 @@ const routes = [
     props: (route) => ({ id: Number(route.params.id) }),
   },
   {
-    path: "/user/:userId",
+    path: "/user/me",
     name: "cabinet",
     component: UserCabinet,
     beforeEnter: ifAuthenticated,
-    props: (route) => ({
-      userId: Number(route.params.userId),
-    }),
   },
   {
     path: "/booked/create/:id",
@@ -176,5 +166,4 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-
 export default router;

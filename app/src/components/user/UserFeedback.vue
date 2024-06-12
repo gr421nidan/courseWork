@@ -1,3 +1,4 @@
+<!--app/src/components/user/UserFeedback.vue-->
 <template>
   <div class="container">
     <div class="content">
@@ -111,6 +112,7 @@ export default {
       },
       tour: {},
       showBlock: false,
+      message: "",
     };
   },
   methods: {
@@ -129,6 +131,7 @@ export default {
         }, 3000);
         return;
       }
+
       const formData = new FormData();
       formData.append("comment", this.formData.comment);
       formData.append("count_stars", this.formData.rating);
@@ -139,35 +142,40 @@ export default {
 
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/feedback/create/${this.id}`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-        body: formData,
-      });
 
-      const result = await response.json();
-      if (response.ok) {
-        this.message = result.message;
-        this.showBlock = true;
-        this.formData = {
-          comment: "",
-          photo: [],
-          rating: null,
-        };
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-        this.$router.push(`/tour/${this.id}`);
-      } else {
-        this.formData = {
-          comment: "",
-          photo: [],
-          rating: null,
-        };
-        this.message = result.message;
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          this.message = result.message;
+          this.showBlock = true;
+          this.formData = {
+            comment: "",
+            photo: [],
+            rating: null,
+          };
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+          this.$router.push(`/tour/${this.id}`);
+        } else {
+          this.message = result.message;
+          this.showBlock = true;
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+        }
+      } catch (error) {
+        this.message = "Произошла ошибка при отправке отзыва.";
         this.showBlock = true;
         setTimeout(() => {
           this.showBlock = false;
@@ -180,4 +188,3 @@ export default {
   },
 };
 </script>
-<style scoped></style>

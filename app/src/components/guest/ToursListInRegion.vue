@@ -1,3 +1,4 @@
+<!--app/src/components/guest/ToursListInRegion.vue-->
 <template>
   <div class="container">
     <div class="content">
@@ -20,6 +21,9 @@
               </button>
             </form>
           </div>
+        </div>
+        <div class="show-message" v-if="showBlock">
+          {{ message }}
         </div>
         <div class="grid_tours">
           <div v-if="tours.length === 0">
@@ -69,24 +73,32 @@ export default {
       showBlock: false,
       regionName: "",
       searchQuery: "",
+      message: "",
     };
   },
   methods: {
     async getToursInRegion() {
       const url = `http://127.0.0.1:8000/api/region/${this.id}`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const result = await response.json();
-        this.regionName = result[0].region.name;
-        this.tours = result.slice(1);
-      } else {
-        this.error = "Ошибка";
-        console.error(this.error);
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) {
+          const result = await response.json();
+          this.regionName = result[0].region.name;
+          this.tours = result.slice(1);
+        } else {
+          throw new Error("Ошибка при получении данных");
+        }
+      } catch (error) {
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
     inTour(id) {
@@ -96,7 +108,6 @@ export default {
       await this.searchTours(this.searchQuery);
     },
   },
-
   created() {
     this.getToursInRegion();
   },

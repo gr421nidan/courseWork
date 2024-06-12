@@ -1,3 +1,4 @@
+<!--app/src/components/admin/AboutGuid.vue-->
 <template>
   <div class="container">
     <div class="content-admin admin_page_content">
@@ -6,6 +7,9 @@
           <h1>Экскурсоводы</h1>
         </div>
         <div class="line_element"></div>
+      </div>
+      <div v-if="showBlock" class="show-message">
+        {{ message }}
       </div>
       <div class="guid_content">
         <div class="guid_content_about">
@@ -45,7 +49,7 @@
         <div class="guid_content_tours">
           <h3>Туры</h3>
           <span v-for="tour in tours" :key="tour.id">
-            <li>{{ tour.name }}</li>
+            <li>{{ tour.name }} с {{tour.date_start}} по {{tour.date_end}}</li>
           </span>
         </div>
       </div>
@@ -71,72 +75,96 @@ export default {
       nameRegion: "",
       user: {},
       tours: [],
+      message: "",
+      showBlock: false,
     };
   },
   methods: {
     async getAboutGuide() {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/guide/${this.id}`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const result = await response.json();
-        this.guide = result.guid;
-        this.nameRegion = result.name_region;
-        this.tours = result.tours;
-      } else {
-        this.error = "Ошибка";
-        console.error(this.error);
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        });
+        if (response.ok) {
+          const result = await response.json();
+          this.guide = result.guid;
+          this.nameRegion = result.name_region;
+          this.tours = result.tours;
+        } else {
+          throw new Error("Ошибка при получении данных");
+        }
+      } catch (error) {
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
     async updateGuide() {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/guide/update/${this.id}`;
-      const response = await fetch(url, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          description: this.formData.description,
-        }),
-      });
-      if (response.ok) {
+      try {
+        const response = await fetch(url, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            description: this.formData.description,
+          }),
+        });
         const result = await response.json();
-        this.guide = result.guide;
-        this.formData.description = "";
-        console.log(result);
-      } else {
-        this.error = "Ошибка при обновлении гида";
-        console.error(this.error);
+        if (response.ok) {
+          this.guide = result.guide;
+          this.formData.description = "";
+          this.message = result.message;
+          this.showBlock = true;
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        this.message = error.message;
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
       }
     },
     async deleteGuide(id) {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/guide/delete/${id}`;
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-      if (response.ok) {
-        this.message = result.message;
+      try {
+        const response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const result = await response.json();
+        if (response.ok) {
+          this.message = result.message;
+          this.showBlock = true;
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+          await this.$router.push("/admin/guids");
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        this.message = error.message;
         this.showBlock = true;
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-        this.$router.push("/admin/guids");
-      } else {
-        this.message = result.message;
-        this.showBlock = true;
-
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);

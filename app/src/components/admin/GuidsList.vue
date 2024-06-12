@@ -1,3 +1,4 @@
+<!--app/src/components/admin/GuidsList.vue-->
 <template>
   <div class="container">
     <div class="content-admin admin_page_content">
@@ -91,7 +92,6 @@ export default {
       guids: [],
       regions: [],
       showBlock: false,
-      error: "",
       message: "",
       user: {},
     };
@@ -107,6 +107,10 @@ export default {
     async createGuids() {
       if (!this.formData.photo) {
         this.message = "Пожалуйста, выберите фото.";
+        this.showBlock = true;
+        setTimeout(() => {
+          this.showBlock = false;
+        }, 3000);
         return;
       }
       const formData = new FormData();
@@ -118,31 +122,39 @@ export default {
 
       const token = this.$store.state.token;
       const url = "http://127.0.0.1:8000/api/guide/create";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-      const result = await response.json();
-      if (response.ok) {
-        this.message = result.message;
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+          body: formData,
+        });
+        const result = await response.json();
+        if (response.ok) {
+          this.message = result.message;
+          this.showBlock = true;
+          await this.getGuids();
+          this.formData = {
+            name: "",
+            surname: "",
+            photo: null,
+            description: "",
+            id_region: "",
+          };
+          setTimeout(() => {
+            this.showBlock = false;
+          }, 3000);
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        this.message = error.message;
         this.showBlock = true;
-        await this.getGuids();
-        this.formData = {};
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-      } else {
-        this.formData = "";
-        this.error = result.error;
-        this.showBlock = true;
-
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-        console.error("Ошибка:", this.error);
       }
     },
     inGuide(id) {

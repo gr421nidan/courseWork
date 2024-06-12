@@ -1,3 +1,4 @@
+<!--app/src/components/admin/RegionsList.vue-->
 <template>
   <div class="container">
     <div class="content-admin admin_page_content">
@@ -83,6 +84,7 @@ export default {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            Accept: "application/json",
           },
           body: formData,
         });
@@ -90,25 +92,17 @@ export default {
         if (response.ok) {
           this.message = result.message;
           this.showBlock = true;
-          setTimeout(() => {
-            this.showBlock = false;
-          }, 3000);
           await this.getRegions();
         } else {
-          this.message = result.errors.name || "Ошибка при создании региона";
-          this.showBlock = true;
-          setTimeout(() => {
-            this.showBlock = false;
-          }, 3000);
+          throw new Error(result.errors.name);
         }
       } catch (error) {
-        this.message =
-          "Произошла ошибка при создании региона. Попробуйте позже.";
+        this.message = error.message;
         this.showBlock = true;
+      } finally {
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-      } finally {
         this.formData.name = "";
         this.formData.photo = null;
       }
@@ -120,6 +114,7 @@ export default {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
+          Accept: "application/json",
         },
       });
       const result = await response.json();

@@ -1,8 +1,12 @@
+<!--app/src/components/guest/AboutTour.vue-->
 <template>
   <div class="container">
     <div class="content">
       <section class="about_tour_content">
         <div>
+          <div class="show-message" v-if="showBlock">
+            {{ message }}
+          </div>
           <router-link to="/tours">Вернуться назад</router-link>
           <div class="block_about_tour_content">
             <img alt="photo_tour" :src="tour.photo" />
@@ -83,6 +87,7 @@
             <p>{{ housing.name }}</p>
             <div id="address_block">
               <img src="../../assets/images/address_marker.png" />
+              <span v-if="!housing.address"> Нет данных об отеле </span>
               <p>{{ housing.address }}</p>
             </div>
           </div>
@@ -100,7 +105,7 @@
       </section>
       <section class="hotel_content_tour">
         <h1>Отель {{ housing.name }}</h1>
-        <div v-if="!housing || Object.keys(housing).length === 0">
+        <div v-if="!housing.name">
           <p>Отель данному туру ещё не назначен.</p>
         </div>
         <div v-else class="hotel_info">
@@ -193,10 +198,6 @@ export default {
   },
   data() {
     return {
-      formData: {
-        description: "",
-      },
-      hotels: [],
       guids: [],
       tour: {},
       statuses: [],
@@ -211,6 +212,7 @@ export default {
       programs: [],
       statusTour: "",
       currentPhotoIndex: 0,
+      showBlock: false,
     };
   },
   created() {

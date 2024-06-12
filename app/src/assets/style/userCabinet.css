@@ -15,6 +15,9 @@ a.active {
   justify-content: space-between;
   align-items: flex-end;
 }
+.cabinet_head_content p {
+  font-family: "Comfortaa", sans-serif;
+}
 .cabinet_head_content div {
   display: flex;
   flex-direction: row;
@@ -133,7 +136,7 @@ a.active {
 .my_application_info div {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 8px;
 }
 .circle_application {
   display: flex;
@@ -143,6 +146,23 @@ a.active {
   width: 25px;
   height: 25px;
   border-radius: 15px;
+}
+.info_application {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  background-color: #aacae7;
+  border: 1px solid #ccc;
+  padding: 20px;
+  transition: opacity 0.3s ease-in-out;
+  width: 400px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+}
+
+.circle_application:hover .info_application {
+  visibility: visible;
+  opacity: 1;
 }
 .my_application_info button {
   height: 45px;

@@ -1,3 +1,4 @@
+<!--app/src/components/user/UserCabinet.vue-->
 <template>
   <div class="container">
     <div class="content">
@@ -48,7 +49,7 @@
               <div>
                 <label>Отчество</label>
                 <span
-                  v-if="user.patronymic === 'NULL' || user.patronymic === null"
+                  v-if="user.patronymic === '' || user.patronymic === null"
                 >
                   <input
                     placeholder="Введите отчество"
@@ -69,7 +70,10 @@
           </div>
           <div class="my_tours_block">
             <h2>Мои забронированные туры</h2>
-            <div
+            <div v-if="applications.message">
+              <p>{{applications.message}}</p>
+            </div>
+            <div v-else
               class="my_application"
               v-for="application in applications"
               :key="application.application.id"
@@ -94,7 +98,18 @@
               <div class="my_application_info">
                 <div>
                   <p>{{ application.application.status_application }}</p>
-                  <div class="circle_application">?</div>
+                  <div class="circle_application">
+                    <p>?</p>
+                    <div class="info_application">
+                      <p v-if="application.application.response">
+                        {{ application.application.response }} - {{application.application.employee}}
+                      </p>
+                      <p v-else>
+                        Вашу заявку рассмотрят в течении 1-2 дней, ожидайте. С
+                        уважением агентство “Снежный Мир”
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <button @click="deleteApplication(application.application.id)">
                   Отменить
@@ -111,10 +126,10 @@
 import { getUserProfile } from "/src/mixins/getUserProfile";
 import { updateUserProfile } from "/src/mixins/updateUserProfile";
 import { ref } from "vue";
-import { confirmEmail, verificationEmail } from "@/mixins/confirmEmail";
+import { confirmEmail } from "@/mixins/confirmEmail";
 
 export default {
-  mixins: [getUserProfile, updateUserProfile, confirmEmail, verificationEmail],
+  mixins: [getUserProfile, updateUserProfile, confirmEmail],
   data() {
     return {
       activeSection: ref("profile"),
@@ -138,7 +153,7 @@ export default {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            Accept: "application/json",
           },
         });
         if (response.ok) {
@@ -157,23 +172,25 @@ export default {
     async deleteApplication(id) {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/booked/delete/${id}`;
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-      if (response.ok) {
-        this.message = result.message;
+      try {
+        const response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const result = await response.json();
+        if (response.ok) {
+          this.message = result.message;
+          this.showBlock = true;
+          await this.getAboutMyApplication();
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        this.message = error.message;
         this.showBlock = true;
-        setTimeout(() => {
-          this.showBlock = false;
-        }, 3000);
-      } else {
-        this.message = result.message;
-        this.showBlock = true;
-
+      } finally {
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);

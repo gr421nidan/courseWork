@@ -1,3 +1,4 @@
+<!--app/src/components/guest/UserRegistrations.vue-->
 <template>
   <div class="background_image">
     <div class="registrations_block">
@@ -107,26 +108,19 @@ export default {
           },
           body: JSON.stringify(user),
         });
-
         if (response.ok) {
           this.$router.push("/login");
         } else {
           this.message = "Ошибка регистрации, проверьте поля данных!";
           this.showBlock = true;
-
-          setTimeout(() => {
-            this.showBlock = false;
-          }, 3000);
         }
       } catch (error) {
         this.message = "Произошла ошибка при регистрации. Попробуйте позже.";
         this.showBlock = true;
-
+      } finally {
         setTimeout(() => {
           this.showBlock = false;
         }, 3000);
-      } finally {
-        // Сброс полей формы независимо от результата
         this.formData.surname = "";
         this.formData.name = "";
         this.formData.patronymic = "";
