@@ -138,10 +138,8 @@ export default {
         id_tour: this.id,
         id_user: this.$store.state.userId,
       };
-
       const token = this.$store.state.token;
       const url = "http://127.0.0.1:8000/api/booked/create";
-
       try {
         const response = await fetch(url, {
           method: "POST",

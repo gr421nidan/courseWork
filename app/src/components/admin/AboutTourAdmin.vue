@@ -233,22 +233,9 @@ export default {
     async updateTour() {
       const token = this.$store.state.token;
       const url = `http://127.0.0.1:8000/api/tour/update/${this.id}`;
-      const requestData = {};
-      if (this.formData.id_status !== "") {
-        requestData.id_status = this.formData.id_status;
-      }
-      if (this.formData.id_guide !== "") {
-        requestData.id_guid = this.formData.id_guide;
-      }
-      if (this.formData.id_housing !== "") {
-        requestData.id_housing = this.formData.id_housing;
-      }
-      if (this.formData.legal_age !== "") {
-        requestData.legal_age = this.formData.legal_age;
-      }
-      if (this.formData.price !== "") {
-        requestData.price = this.formData.price;
-      }
+      const requestData = Object.fromEntries(
+          Object.entries(this.formData).filter(([_, value]) => value !== "")
+      );
       try {
         const response = await fetch(url, {
           method: "PATCH",

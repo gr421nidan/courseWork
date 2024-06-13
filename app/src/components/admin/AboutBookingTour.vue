@@ -155,7 +155,10 @@ export default {
         if (response.ok) {
           this.message = result.message;
           this.showBlock = true;
-          this.formData={};
+          this.formData = {
+            id_status_application: "",
+            response: "",
+          };
           setTimeout(() => {
             this.showBlock = false;
           }, 3000);

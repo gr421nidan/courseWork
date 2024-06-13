@@ -167,7 +167,6 @@ export default {
         if (response.ok) {
           this.tour = result.tour;
           this.message = result.message;
-          console.log(result);
           this.showBlock = true;
           setTimeout(() => {
             this.showBlock = false;
