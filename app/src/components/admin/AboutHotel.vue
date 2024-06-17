@@ -22,30 +22,16 @@
               {{ hotel.address }}
             </p>
           </div>
-          <button
-            @click="deleteHotel(hotel.id)"
-            class="delete_button"
-            type="submit"
-          >
-            Удалить
-          </button>
+          <button @click="deleteHotel(hotel.id)" class="delete_button" type="submit">Удалить</button>
         </div>
         <div class="hotel_photos">
           <span class="photos_hotel_content">
-            <img :src="hotel.photo[currentPhotoIndex]" />
+            <img :src="hotel.photo[currentPhotoIndex]"/>
           </span>
           <div class="arrows_row">
-            <img
-              alt="arrow_left"
-              src="../../assets/images/arrow_left.png"
-              @click="backPhoto"
-            />
-            <img
-              class="arrow_hotel_right"
-              alt="arrow_right"
-              src="../../assets/images/arrow_left.png"
-              @click="nextPhoto"
-            />
+            <img alt="arrow_left" src="../../assets/images/arrow_left.png" @click="backPhoto"/>
+            <img class="arrow_hotel_right" alt="arrow_right" src="../../assets/images/arrow_left.png"
+                 @click="nextPhoto"/>
           </div>
         </div>
       </div>

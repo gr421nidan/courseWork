@@ -25,21 +25,9 @@
           <form @submit.prevent="createRegions" class="regions_create">
             <h2>Добавить регион</h2>
             <div>
-              <input
-                class="input_form"
-                type="text"
-                v-model="formData.name"
-                placeholder="Название"
-              />
-              <label for="file-upload" class="custom-file-upload">
-                Добавить фото
-                <input
-                  id="file-upload"
-                  class="input_file"
-                  type="file"
-                  @change="onFileChange"
-                  multiple
-                />
+              <input class="input_form" type="text" v-model="formData.name" placeholder="Название"/>
+              <label for="file-upload" class="custom-file-upload">Добавить фото
+                <input id="file-upload" class="input_file" type="file" @change="onFileChange" multiple/>
               </label>
             </div>
             <button class="button_admin_pages" type="submit">Добавить</button>
@@ -50,7 +38,7 @@
   </div>
 </template>
 <script>
-import { getRegions } from "/src/mixins/getRegions";
+import {getRegions} from "/src/mixins/getRegions";
 
 export default {
   mixins: [getRegions],

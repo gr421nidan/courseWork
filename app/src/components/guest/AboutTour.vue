@@ -9,7 +9,7 @@
           </div>
           <router-link to="/tours">Вернуться назад</router-link>
           <div class="block_about_tour_content">
-            <img alt="photo_tour" :src="tour.photo" />
+            <img alt="photo_tour" :src="tour.photo"/>
             <div class="block_about_tour">
               <p>
                 <strong>{{ statusTour }}</strong>
@@ -40,9 +40,7 @@
                 </ul>
               </div>
             </div>
-            <button @click="inBookingTour(tour.id)" class="program_btn">
-              Забронировать
-            </button>
+            <button @click="inBookingTour(tour.id)" class="program_btn">Забронировать</button>
             <div id="block_about_price">
               <p>Не требует оплаты сейчас</p>
               <div class="circle">
@@ -66,10 +64,7 @@
               <div v-for="program in programs" :key="program.id">
                 <p>{{ program.day }}</p>
                 <div v-if="program.programme">
-                  <div
-                    v-for="programme in program.programme.split('\n')"
-                    :key="programme"
-                  >
+                  <div v-for="programme in program.programme.split('\n')" :key="programme">
                     <span class="marker">•</span>
                     {{ programme }}
                   </div>
@@ -86,7 +81,7 @@
             <h4>Проживание во время тура</h4>
             <p>{{ housing.name }}</p>
             <div id="address_block">
-              <img src="../../assets/images/address_marker.png" />
+              <img src="../../assets/images/address_marker.png"/>
               <span v-if="!housing.address"> Нет данных об отеле </span>
               <p>{{ housing.address }}</p>
             </div>
@@ -120,28 +115,15 @@
           </div>
           <div class="hotel_photos">
             <span class="photos_hotel_content">
-              <img
-                v-if="housing.photo && housing.photo.length"
-                :src="housing.photo[currentPhotoIndex]"
-                alt="hotel_photo"
-              />
+              <img v-if="housing.photo && housing.photo.length" :src="housing.photo[currentPhotoIndex]"
+                   alt="hotel_photo"/>
               <p v-else>Фото недоступны</p>
             </span>
             <div
-              class="arrows_row"
-              v-if="housing.photo && housing.photo.length"
-            >
-              <img
-                alt="arrow_left"
-                src="../../assets/images/arrow_left.png"
-                @click="backPhoto"
-              />
-              <img
-                class="arrow_hotel_right"
-                alt="arrow_right"
-                src="../../assets/images/arrow_left.png"
-                @click="nextPhoto"
-              />
+                class="arrows_row" v-if="housing.photo && housing.photo.length">
+              <img alt="arrow_left" src="../../assets/images/arrow_left.png" @click="backPhoto"/>
+              <img class="arrow_hotel_right" alt="arrow_right" src="../../assets/images/arrow_left.png"
+                   @click="nextPhoto"/>
             </div>
           </div>
         </div>
@@ -157,26 +139,16 @@
         <div v-if="feedbacks.length === 0" class="no_reviews">
           <p>Пока нет отзывов о туре.</p>
         </div>
-        <div
-          v-else
-          class="card_feedback"
-          v-for="feedback in feedbacks"
-          :key="feedback.id"
-        >
+        <div v-else class="card_feedback" v-for="feedback in feedbacks" :key="feedback.id">
           <div>
             <h3>{{ feedback.user_name }}</h3>
             <div class="rating_area_static">
-              <label
-                v-for="n in 5"
-                :key="n"
-                :class="{ filled: n <= feedback.rating }"
-                >★</label
-              >
+              <label v-for="n in 5" :key="n" :class="{ filled: n <= feedback.rating }">★</label>
             </div>
           </div>
           <p>{{ feedback.comment }}</p>
           <div class="photos_feedback">
-            <img v-for="photo in feedback.photos" :src="photo" :key="photo" />
+            <img v-for="photo in feedback.photos" :src="photo" :key="photo"/>
           </div>
           <p>{{ feedback.date }}</p>
         </div>
@@ -185,7 +157,7 @@
   </div>
 </template>
 <script>
-import { getAboutTour } from "@/mixins/getAboutTour";
+import {getAboutTour} from "@/mixins/getAboutTour";
 
 export default {
   mixins: [getAboutTour],
@@ -218,7 +190,6 @@ export default {
   created() {
     this.getAboutTour();
   },
-
   methods: {
     backPhoto() {
       if (this.currentPhotoIndex > 0) {
@@ -235,10 +206,10 @@ export default {
       }
     },
     inFeedbackCreate(id) {
-      this.$router.push({ name: "feedbackCreate", params: { id } });
+      this.$router.push({name: "feedbackCreate", params: {id}});
     },
     inBookingTour(id) {
-      this.$router.push({ name: "bookingTour", params: { id } });
+      this.$router.push({name: "bookingTour", params: {id}});
     },
   },
 };

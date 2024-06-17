@@ -2,24 +2,16 @@
 <template>
   <div class="container" v-if="!$store.getters.isAdmin">
     <section id="main">
-      <img
-        class="main_background"
-        alt="main_background"
-        src="../assets/images/main_background.png"
-      />
+      <img class="main_background" alt="main_background" src="../assets/images/main_background.png"/>
       <div class="content">
         <div class="main_content">
           <div class="main_content_desc">
             <p>Туристическое агентство</p>
-            <h1>
-              Зимние курорты России:<br />ваш путь к<br />
-              сказочным <br />приключениям!
-            </h1>
-            <p>
-              Отправляйтесь в захватывающее путешествие по зимним курортам
+            <h1>Зимние курорты России:<br/>ваш путь к<br/>
+              сказочным <br/>приключениям!</h1>
+            <p>Отправляйтесь в захватывающее путешествие по зимним курортам
               России с нашим туристическим агентством! Наполните свой отдых
-              незабываемыми впечатлениями - бронируйте свой тур сейчас!
-            </p>
+              незабываемыми впечатлениями - бронируйте свой тур сейчас!</p>
           </div>
         </div>
       </div>
@@ -28,7 +20,7 @@
       <h1>Регионы</h1>
       <div class="grid_regions">
         <div class="card" v-for="region in regions" :key="region.id">
-          <img alt="photo_region" :src="region.photo" />
+          <img alt="photo_region" :src="region.photo"/>
           <div class="title_region">
             <h4 @click="inRegion(region.id)">{{ region.name }}</h4>
           </div>
@@ -40,7 +32,7 @@
       <h1>Наши экскурсоводы</h1>
       <div class="grid_guids">
         <div class="card" v-for="guide in guids" :key="guide.id">
-          <img alt="photo_guid" :src="guide.guide.photo" />
+          <img alt="photo_guid" :src="guide.guide.photo"/>
           <div class="overlay">
             <div class="card_about">
               <h3>{{ guide.guide.name }} {{ guide.guide.surname }}</h3>
@@ -56,52 +48,39 @@
     <section id="about" class="about content">
       <div class="about_block">
         <h1>О нас</h1>
-        <p>
-          “Снежный мир” - команда профессионалов, с горячим сердцем и неугасимым
+        <p>“Снежный мир” - команда профессионалов, с горячим сердцем и неугасимым
           энтузиазмом, которые стремятся создать для вас незабываемые зимние
           впечатления. В нашем агентстве мы специализируемся на организации
           туров по зимним курортам России, где каждый сможет найти что-то по
-          своему вкусу и насладиться атмосферой сказочной зимы.
-        </p>
+          своему вкусу и насладиться атмосферой сказочной зимы.</p>
       </div>
       <div class="why_us_block">
-        <img
-          class="background_about"
-          src="../assets/images/background_about.png"
-        />
+        <img class="background_about" src="../assets/images/background_about.png"/>
         <div class="why_us_block_content">
           <h3>Почему выбирают нас:</h3>
           <div class="row_blocks_why_us">
             <div class="block_why_us">
               <p>Сотрудничество</p>
               <div class="line_why_us_block"></div>
-              <p>
-                Мы сотрудничаем только с проверенными партнерами и гарантируем
-                качество услуг наших партнеров.
-              </p>
+              <p>Мы сотрудничаем только с проверенными партнерами и гарантируем
+                качество услуг наших партнеров.</p>
             </div>
             <div class="block_why_us">
               <p>Профессионализм</p>
               <div class="line_why_us_block"></div>
-              <p>
-                Мы - команда профессионалов, которые знают и любят свою работу.
-              </p>
+              <p>Мы - команда профессионалов, которые знают и любят свою работу.</p>
             </div>
             <div class="block_why_us">
               <p>Цель</p>
               <div class="line_why_us_block"></div>
-              <p>
-                Cделать ваш отдых максимально комфортным, безопасным и запомина-
-                ющимся.
-              </p>
+              <p>Cделать ваш отдых максимально комфортным, безопасным и запомина-
+                ющимся.</p>
             </div>
             <div class="block_why_us">
               <p>Поддержка</p>
               <div class="line_why_us_block"></div>
-              <p>
-                Мы всегда готовы ответить на ваши вопросы и помочь в решении
-                любых вопросов.
-              </p>
+              <p>Мы всегда готовы ответить на ваши вопросы и помочь в решении
+                любых вопросов.</p>
             </div>
           </div>
         </div>
@@ -113,25 +92,21 @@
       <div class="columns_contacts">
         <div class="column_contacts">
           <p>Связаться с нами:</p>
-          <p>
-            Бесплатный звонок:<br />
-            Томск: +7 924 701-08-10<br />
-            email: tour.snowWord@tsk.ru
-          </p>
+          <p>Бесплатный звонок:<br/>
+            Томск: +7 924 701-08-10<br/>
+            email: tour.snowWord@tsk.ru</p>
         </div>
         <div class="column_contacts">
           <p>Наш адрес:</p>
-          <p>
-            ул. Гагарина 7,<br />
-            Томск<br />
-            2 этаж, 5 отдел
-          </p>
+          <p>ул. Гагарина 7,<br/>
+            Томск<br/>
+            2 этаж, 5 отдел</p>
         </div>
         <div class="column_contacts">
           <p>Режим работы:</p>
           <p>
-            пн-сб: с 9:00<br />
-            до 20:00<br />
+            пн-сб: с 9:00<br/>
+            до 20:00<br/>
             вс выходной
           </p>
         </div>
@@ -163,19 +138,19 @@
         <form class="form_profile" @submit.prevent="updateUserProfile">
           <div>
             <label>Фамилия</label>
-            <input v-model="user.surname" />
+            <input v-model="user.surname"/>
           </div>
           <div>
             <label>Имя</label>
-            <input v-model="user.name" />
+            <input v-model="user.name"/>
           </div>
           <div>
             <label>Отчество</label>
             <span v-if="user.patronymic === 'NULL' || user.patronymic === null">
-              <input placeholder="Введите отчество" v-model="user.patronymic" />
+              <input placeholder="Введите отчество" v-model="user.patronymic"/>
             </span>
             <span v-else>
-              <input v-model="user.patronymic" />
+              <input v-model="user.patronymic"/>
             </span>
           </div>
           <button type="submit">Сохранить</button>
@@ -185,11 +160,11 @@
   </div>
 </template>
 <script>
-import { getRegions } from "/src/mixins/getRegions";
-import { getGuids } from "/src/mixins/getGuids";
-import { getUserProfile } from "/src/mixins/getUserProfile";
-import { updateUserProfile } from "/src/mixins/updateUserProfile";
-import { confirmEmail } from "@/mixins/confirmEmail";
+import {getRegions} from "/src/mixins/getRegions";
+import {getGuids} from "/src/mixins/getGuids";
+import {getUserProfile} from "/src/mixins/getUserProfile";
+import {updateUserProfile} from "/src/mixins/updateUserProfile";
+import {confirmEmail} from "@/mixins/confirmEmail";
 
 export default {
   mixins: [
@@ -210,7 +185,7 @@ export default {
   },
   methods: {
     inRegion(id) {
-      this.$router.push({ name: "tourInRegion", params: { id } });
+      this.$router.push({name: "tourInRegion", params: {id}});
     },
   },
   created() {

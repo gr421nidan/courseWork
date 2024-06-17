@@ -13,11 +13,7 @@
           <p>Экскурсоводы отсутствуют!</p>
         </div>
         <div class="list_guids">
-          <li
-            v-for="guide in guids"
-            :key="guide.guide.id"
-            @click="inGuide(guide.guide.id)"
-          >
+          <li v-for="guide in guids" :key="guide.guide.id" @click="inGuide(guide.guide.id)">
             {{ guide.guide.name }} {{ guide.guide.surname }}
           </li>
         </div>
@@ -28,40 +24,16 @@
           <form @submit.prevent="createGuids" class="guids_create">
             <h2>Добавить экскурсовода</h2>
             <div>
-              <input
-                class="input_form"
-                type="text"
-                v-model="formData.surname"
-                placeholder="Фамилия"
-              />
-              <input
-                class="input_form"
-                type="text"
-                v-model="formData.name"
-                placeholder="Имя"
-              />
-              <textarea
-                class="textarea_form"
-                v-model="formData.description"
-                placeholder="Описание"
-              />
+              <input class="input_form" type="text" v-model="formData.surname" placeholder="Фамилия"/>
+              <input class="input_form" type="text" v-model="formData.name" placeholder="Имя"/>
+              <textarea class="textarea_form" v-model="formData.description" placeholder="Описание"/>
               <label for="file-upload" class="custom-file-upload">
                 Добавить фото
-                <input
-                  id="file-upload"
-                  class="input_file"
-                  type="file"
-                  @change="onFileChange"
-                  multiple
-                />
+                <input id="file-upload" class="input_file" type="file" @change="onFileChange" multiple/>
               </label>
               <select v-model="formData.id_region" class="input_form">
                 <option disabled value="">Добавить регион</option>
-                <option
-                  v-for="region in regions"
-                  :key="region.id"
-                  :value="region.id"
-                >
+                <option v-for="region in regions" :key="region.id" :value="region.id">
                   {{ region.name }}
                 </option>
               </select>
@@ -75,8 +47,8 @@
 </template>
 
 <script>
-import { getRegions } from "/src/mixins/getRegions";
-import { getGuids } from "/src/mixins/getGuids";
+import {getRegions} from "/src/mixins/getRegions";
+import {getGuids} from "/src/mixins/getGuids";
 
 export default {
   mixins: [getRegions, getGuids],
@@ -158,7 +130,7 @@ export default {
       }
     },
     inGuide(id) {
-      this.$router.push({ name: "AboutGuide", params: { id } });
+      this.$router.push({name: "AboutGuide", params: {id}});
     },
   },
 };

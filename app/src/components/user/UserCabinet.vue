@@ -7,18 +7,9 @@
         <div class="cabinet_content">
           <div class="cabinet_head_content">
             <div>
-              <a
-                href="#"
-                @click.prevent="setActiveSection('profile')"
-                :class="{ active: activeSection === 'profile' }"
-                >Профиль</a
-              >
-              <a
-                href="#"
-                @click.prevent="setActiveSection('myTours')"
-                :class="{ active: activeSection === 'myTours' }"
-                >Мои туры</a
-              >
+              <a href="#" @click.prevent="setActiveSection('profile')" :class="{ active: activeSection === 'profile' }">Профиль</a>
+              <a href="#" @click.prevent="setActiveSection('myTours')" :class="{ active: activeSection === 'myTours' }">Мои
+                туры</a>
             </div>
             <span v-if="user.email_verified_at === null">
               <button @click="confirmEmail" class="btn_cabinet_email">
@@ -40,24 +31,19 @@
               </div>
               <div>
                 <label>Фамилия</label>
-                <input v-model="user.surname" />
+                <input v-model="user.surname"/>
               </div>
               <div>
                 <label>Имя</label>
-                <input v-model="user.name" />
+                <input v-model="user.name"/>
               </div>
               <div>
                 <label>Отчество</label>
-                <span
-                  v-if="user.patronymic === '' || user.patronymic === null"
-                >
-                  <input
-                    placeholder="Введите отчество"
-                    v-model="user.patronymic"
-                  />
+                <span v-if="user.patronymic === '' || user.patronymic === null">
+                  <input placeholder="Введите отчество" v-model="user.patronymic"/>
                 </span>
                 <span v-else>
-                  <input v-model="user.patronymic" />
+                  <input v-model="user.patronymic"/>
                 </span>
               </div>
               <button type="submit">Сохранить</button>
@@ -71,13 +57,9 @@
           <div class="my_tours_block">
             <h2>Мои забронированные туры</h2>
             <div v-if="applications.message">
-              <p>{{applications.message}}</p>
+              <p>{{ applications.message }}</p>
             </div>
-            <div v-else
-              class="my_application"
-              v-for="application in applications"
-              :key="application.application.id"
-            >
+            <div v-else class="my_application" v-for="application in applications" :key="application.application.id">
               <div class="my_application_text">
                 <h3>{{ application.application.tour_name }}</h3>
                 <p>
@@ -102,7 +84,7 @@
                     <p>?</p>
                     <div class="info_application">
                       <p v-if="application.application.response">
-                        {{ application.application.response }} - {{application.application.employee}}
+                        {{ application.application.response }} - {{ application.application.employee }}
                       </p>
                       <p v-else>
                         Вашу заявку рассмотрят в течении 1-2 дней, ожидайте. С
@@ -123,16 +105,15 @@
   </div>
 </template>
 <script>
-import { getUserProfile } from "/src/mixins/getUserProfile";
-import { updateUserProfile } from "/src/mixins/updateUserProfile";
-import { ref } from "vue";
-import { confirmEmail } from "@/mixins/confirmEmail";
+import {getUserProfile} from "/src/mixins/getUserProfile";
+import {updateUserProfile} from "/src/mixins/updateUserProfile";
+import {confirmEmail} from "@/mixins/confirmEmail";
 
 export default {
   mixins: [getUserProfile, updateUserProfile, confirmEmail],
   data() {
     return {
-      activeSection: ref("profile"),
+      activeSection: "profile",
       user: {},
       applications: {},
       showBlock: false,

@@ -30,14 +30,13 @@
                 <p>{{ tour.description }}</p>
               </div>
               <div>
-                <img :src="tour.photo" />
+                <img :src="tour.photo"/>
               </div>
             </div>
           </div>
           <div class="card_tour_admin_block">
             <div>
               <p>Что включено в тур:</p>
-
               <li v-for="item in enabledItems" :key="item">
                 <span class="marker">•</span>{{ item }}
               </li>
@@ -62,10 +61,7 @@
                 <div v-for="program in programs" :key="program.id">
                   <p>{{ program.day }}</p>
                   <div v-if="program.programme">
-                    <div
-                      v-for="programme in program.programme.split('\n')"
-                      :key="programme"
-                    >
+                    <div v-for="programme in program.programme.split('\n')" :key="programme">
                       <span class="marker">•</span>
                       {{ programme }}
                     </div>
@@ -79,13 +75,7 @@
           </div>
         </div>
         <div class="tour_content_about">
-          <button
-            @click="deleteTour(tour.id)"
-            type="submit"
-            class="delete_button"
-          >
-            Удалить
-          </button>
+          <button @click="deleteTour(tour.id)" type="submit" class="delete_button">Удалить</button>
           <div class="tour_content_forms">
             <div class="tours_update_block">
               <form @submit.prevent="updateTour" class="guids_create">
@@ -93,46 +83,24 @@
                 <div>
                   <select v-model="formData.id_status" class="input_form">
                     <option disabled value="">Изменить статус</option>
-                    <option
-                      v-for="status in statuses"
-                      :key="status.id"
-                      :value="status.id"
-                    >
+                    <option v-for="status in statuses" :key="status.id" :value="status.id">
                       {{ status.status }}
                     </option>
                   </select>
                   <select v-model="formData.id_guide" class="input_form">
                     <option disabled value="">Изменить экскурсовода</option>
-                    <option
-                      v-for="guide in guids"
-                      :key="guide.guide.id"
-                      :value="guide.guide.id"
-                    >
+                    <option v-for="guide in guids" :key="guide.guide.id" :value="guide.guide.id">
                       {{ guide.guide.name }} {{ guide.guide.surname }}
                     </option>
                   </select>
                   <select v-model="formData.id_housing" class="input_form">
                     <option disabled value="">Изменить отель</option>
-                    <option
-                      v-for="hotel in hotels"
-                      :key="hotel.id"
-                      :value="hotel.id"
-                    >
+                    <option v-for="hotel in hotels" :key="hotel.id" :value="hotel.id">
                       {{ hotel.name }}
                     </option>
                   </select>
-                  <input
-                    class="input_form"
-                    type="number"
-                    v-model="formData.legal_age"
-                    placeholder="Мин.возраст"
-                  />
-                  <input
-                    class="input_form"
-                    type="text"
-                    v-model="formData.price"
-                    placeholder="Цена"
-                  />
+                  <input class="input_form" type="number" v-model="formData.legal_age" placeholder="Мин.возраст"/>
+                  <input class="input_form" type="text" v-model="formData.price" placeholder="Цена"/>
                 </div>
                 <button class="button_admin_pages" type="submit">
                   Сохранить
@@ -143,17 +111,9 @@
               <form @submit.prevent="createProgram" class="guids_create">
                 <h2>Добавить программу тура</h2>
                 <div>
-                  <input
-                    class="input_form"
-                    type="text"
-                    v-model="formData.day"
-                    placeholder="Добавить название программы"
-                  />
-                  <textarea
-                    class="textarea_form"
-                    v-model="formData.programme"
-                    placeholder="Добавить программу"
-                  />
+                  <input class="input_form" type="text" v-model="formData.day"
+                         placeholder="Добавить название программы"/>
+                  <textarea class="textarea_form" v-model="formData.programme" placeholder="Добавить программу"/>
                 </div>
                 <button class="button_admin_pages" type="submit">
                   Добавить
@@ -167,9 +127,9 @@
   </div>
 </template>
 <script>
-import { getAboutTour } from "@/mixins/getAboutTour";
-import { getGuids } from "@/mixins/getGuids";
-import { getHotels } from "@/mixins/getHotels";
+import {getAboutTour} from "@/mixins/getAboutTour";
+import {getGuids} from "@/mixins/getGuids";
+import {getHotels} from "@/mixins/getHotels";
 
 export default {
   mixins: [getAboutTour, getGuids, getHotels],

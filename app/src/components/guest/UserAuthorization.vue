@@ -6,18 +6,8 @@
         <h1>Вход</h1>
         <form @submit.prevent="login">
           <div class="inputs_login">
-            <input
-              class="input_form"
-              type="email"
-              v-model="formData.email"
-              placeholder="Введите вашу эл.почту"
-            />
-            <input
-              class="input_form"
-              type="password"
-              v-model="formData.password"
-              placeholder="Введите пароль"
-            />
+            <input class="input_form" type="email" v-model="formData.email" placeholder="Введите вашу эл.почту"/>
+            <input class="input_form" type="password" v-model="formData.password" placeholder="Введите пароль"/>
           </div>
           <div class="buttons">
             <button class="btn_auth_related" type="submit">Войти</button>
@@ -79,8 +69,8 @@ export default {
         }
       } catch (error) {
         this.message =
-          error.message ||
-          "Произошла ошибка при авторизации. Попробуйте позже.";
+            error.message ||
+            "Произошла ошибка при авторизации. Попробуйте позже.";
         this.showBlock = true;
         setTimeout(() => {
           this.showBlock = false;

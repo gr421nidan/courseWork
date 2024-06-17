@@ -44,7 +44,7 @@
   </div>
 </template>
 <script>
-import { getUserProfile } from "/src/mixins/getUserProfile";
+import {getUserProfile} from "/src/mixins/getUserProfile";
 
 export default {
   mixins: [getUserProfile],
@@ -82,7 +82,7 @@ export default {
       }
     },
     confirmApplication(id) {
-      this.$router.push({ name: "AboutApplication", params: { id } });
+      this.$router.push({name: "AboutApplication", params: {id}});
     },
   },
   created() {

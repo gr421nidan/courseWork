@@ -1,191 +1,214 @@
 .background_image {
-  width: 100%;
-  height: 1050px;
-  background-image: url("../images/auth_related_background.jpg");
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: 100%;
+    height: 1050px;
+    background-image: url("../images/auth_related_background.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .form_login {
-  width: 500px;
-  height: 502px;
-  background-color: #fff7eb;
-  border-radius: 60px;
-  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  font-family: "Exo 2", sans-serif;
-  font-size: 18px;
-  align-items: center;
-  text-align: center;
-  gap: 30px;
+    width: 500px;
+    height: 502px;
+    background-color: #fff7eb;
+    border-radius: 60px;
+    box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-family: "Exo 2", sans-serif;
+    font-size: 18px;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
 }
+
 .form_login h1 {
-  font-family: "Comfortaa", sans-serif;
-  font-size: 40px;
+    font-family: "Comfortaa", sans-serif;
+    font-size: 40px;
 }
+
 .form_login form {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
 }
+
 .inputs_login {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
+
 .input_form {
-  width: 400px;
-  height: 60px;
-  border-radius: 60px;
-  padding: 0 25px;
-  color: #0b1957;
-  font-size: 18px;
+    width: 400px;
+    height: 60px;
+    border-radius: 60px;
+    padding: 0 25px;
+    color: #0b1957;
+    font-size: 18px;
 }
+
 .buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
-.buttons router-link {
-  text-decoration: underline;
+
+.buttons > a {
+    text-decoration: underline;
 }
 
 .registrations_block {
-  width: 500px;
-  height: 808px;
-  border-radius: 60px;
-  background-color: #fff7eb;
-  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  font-family: "Exo 2", sans-serif;
-  font-size: 18px;
-  align-items: center;
-  text-align: center;
-  gap: 30px;
+    width: 500px;
+    height: 808px;
+    border-radius: 60px;
+    background-color: #fff7eb;
+    box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-family: "Exo 2", sans-serif;
+    font-size: 18px;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
 }
+
 .form_registrations {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
+
 .form_registrations h1 {
-  font-family: "Comfortaa", sans-serif;
-  font-size: 40px;
+    font-family: "Comfortaa", sans-serif;
+    font-size: 40px;
 }
+
 .inputs_register {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .btn_register {
-  width: 312px;
-  height: 60px;
-  border-radius: 60px;
-  color: white;
-  background-color: #aacae7;
-  font-size: 24px;
+    width: 312px;
+    height: 60px;
+    border-radius: 60px;
+    color: white;
+    background-color: #aacae7;
+    font-size: 24px;
 }
 
 .buttons_registrations {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
+
+.buttons_registrations > a {
+    text-decoration: underline;
+}
+
 .form_registrations form {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
 }
+
 .confirmed_btn {
-  width: 400px;
-  display: flex;
-  gap: 20px;
-  text-align: left;
+    width: 400px;
+    display: flex;
+    gap: 20px;
+    text-align: left;
 }
+
 .confirmed_btn input {
-  border-color: #aacae7;
+    border-color: #aacae7;
 }
 
 .btn_auth_related {
-  width: 200px;
-  height: 60px;
-  border-radius: 60px;
-  color: white;
-  background-color: #aacae7;
-  font-size: 24px;
+    width: 200px;
+    height: 60px;
+    border-radius: 60px;
+    color: white;
+    background-color: #aacae7;
+    font-size: 24px;
 }
 
 .password_reset_block {
-  width: 500px;
-  height: 324px;
-  border-radius: 60px;
-  background-color: #fff7eb;
-  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  font-family: "Exo 2", sans-serif;
-  font-size: 18px;
-  align-items: center;
-  text-align: center;
-  gap: 30px;
+    width: 500px;
+    height: 324px;
+    border-radius: 60px;
+    background-color: #fff7eb;
+    box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-family: "Exo 2", sans-serif;
+    font-size: 18px;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
 }
+
 .password_reset h1 {
-  font-family: "Comfortaa", sans-serif;
-  font-size: 40px;
+    font-family: "Comfortaa", sans-serif;
+    font-size: 40px;
 }
+
 .password_reset form {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
 }
+
 .password_reset {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .password_recovery_block {
-  width: 500px;
-  height: 354px;
-  border-radius: 60px;
-  background-color: #fff7eb;
-  box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  font-family: "Exo 2", sans-serif;
-  font-size: 18px;
-  align-items: center;
-  text-align: center;
-  gap: 30px;
+    width: 500px;
+    height: 354px;
+    border-radius: 60px;
+    background-color: #fff7eb;
+    box-shadow: 0 0 10px 5px rgba(11, 25, 87, 0.5);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-family: "Exo 2", sans-serif;
+    font-size: 18px;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
 }
+
 .password_recovery h1 {
-  font-family: "Comfortaa", sans-serif;
-  font-size: 40px;
+    font-family: "Comfortaa", sans-serif;
+    font-size: 40px;
 }
+
 .password_recovery form {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
 }
+
 .password_recovery {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }

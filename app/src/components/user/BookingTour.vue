@@ -15,34 +15,15 @@
                 </div>
                 <form @submit.prevent="BookingTour">
                   <div>
-                    <label class="label_input_booked"
-                      >Номер телефона
-                      <input
-                        class="input_booked"
-                        type="tel"
-                        v-model="formData.tel"
-                    /></label>
-                    <label class="label_small"
-                      >Взрослых(от 18 лет)
-                      <input
-                        class="input_booked_small"
-                        type="number"
-                        v-model="formData.count_adults"
-                    /></label>
-                    <label class="label_small"
-                      >Детей(до 18 лет)
-                      <input
-                        class="input_booked_small"
-                        type="number"
-                        v-model="formData.count_children"
-                    /></label>
+                    <label class="label_input_booked">Номер телефона
+                      <input class="input_booked" type="tel" v-model="formData.tel"/></label>
+                    <label class="label_small">Взрослых(от 18 лет)
+                      <input class="input_booked_small" type="number" v-model="formData.count_adults"/></label>
+                    <label class="label_small">Детей(до 18 лет)
+                      <input class="input_booked_small" type="number" v-model="formData.count_children"/></label>
                   </div>
-                  <label
-                    >Ваши пожелания
-                    <textarea
-                      v-model="formData.wishes"
-                      placeholder="Ваши комментарии или пожелания"
-                    ></textarea>
+                  <label>Ваши пожелания
+                    <textarea v-model="formData.wishes" placeholder="Ваши комментарии или пожелания"></textarea>
                   </label>
                   <button type="submit">Отправить заявку</button>
                 </form>
@@ -75,20 +56,16 @@
                 <span class="circle_info"></span>
                 <li>Бронирование</li>
               </div>
-              <p>
-                На основании присланной Вами анкеты осуществляется бронирование
-                мест, Вам высылается подтверждение бронирования, договор и счет.
-              </p>
+              <p>На основании присланной Вами анкеты осуществляется бронирование
+                мест, Вам высылается подтверждение бронирования, договор и счет.</p>
               <div>
                 <span class="circle_info"></span>
                 <li>Оплата</li>
               </div>
-              <p>
-                В период от 1 до 5 календарных дней после подтверждения заявки
+              <p>В период от 1 до 5 календарных дней после подтверждения заявки
                 внести предоплату. Точные сроки и условия оплаты сообщит
                 менеджер тура. Внести полную оплату по договору обычно нужно не
-                позднее чем за 2 недели до начала поездки.
-              </p>
+                позднее чем за 2 недели до начала поездки.</p>
               <div>
                 <span class="circle_info"></span>
                 <li>Отправляйтесь в тур</li>
@@ -101,8 +78,7 @@
   </div>
 </template>
 <script>
-import { getAboutTour } from "@/mixins/getAboutTour";
-
+import {getAboutTour} from "@/mixins/getAboutTour";
 export default {
   mixins: [getAboutTour],
   name: "bookingTour",

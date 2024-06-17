@@ -16,11 +16,7 @@
           <p>Туры отсутствуют!</p>
         </div>
         <div class="list_tours">
-          <li
-            v-for="tour in tours"
-            :key="tour.id"
-            @click="inTour(tour.tour.id)"
-          >
+          <li v-for="tour in tours" :key="tour.id" @click="inTour(tour.tour.id)">
             {{ tour.tour.name }}
           </li>
         </div>
@@ -28,73 +24,30 @@
           <form @submit.prevent="createTours" class="tours_create">
             <h2>Добавить тур</h2>
             <div class="form_tour">
-              <input
-                class="input_form"
-                type="text"
-                v-model="formData.name"
-                placeholder="Название"
-              />
-              <textarea
-                class="textarea_form"
-                v-model="formData.description"
-                placeholder="Описание"
-              />
+              <input class="input_form" type="text" v-model="formData.name" placeholder="Название"/>
+              <textarea class="textarea_form" v-model="formData.description" placeholder="Описание"/>
               <div class="input_form_small_row">
-                <input
-                  class="input_form_small"
-                  type="text"
-                  v-model="formData.price"
-                  placeholder="Цена"
-                />
-                <input
-                  class="input_form_small"
-                  type="number"
-                  v-model="formData.legal_age"
-                  placeholder="Мин.возраст"
-                />
+                <input class="input_form_small" type="text" v-model="formData.price" placeholder="Цена"/>
+                <input class="input_form_small" type="number" v-model="formData.legal_age" placeholder="Мин.возраст"/>
               </div>
-              <textarea
-                class="textarea_form"
-                v-model="formData.enabled"
-                placeholder="Включено в тур"
-              />
+              <textarea class="textarea_form" v-model="formData.enabled" placeholder="Включено в тур"/>
               <div class="input_form_small_row">
-                <label class="custom-date-input">
-                  Дата начала
-                  <input
-                    class="input_form_small"
-                    type="date"
-                    v-model="formData.date_start"
-                  />
+                <label class="custom-date-input">Дата начала
+                  <input class="input_form_small" type="date" v-model="formData.date_start"/>
                 </label>
-                <label class="custom-date-input">
-                  Дата окончания
-                  <input
-                    class="input_form_small"
-                    type="date"
-                    v-model="formData.date_end"
-                  />
+                <label class="custom-date-input">Дата окончания
+                  <input class="input_form_small" type="date" v-model="formData.date_end"/>
                 </label>
               </div>
               <select v-model="formData.id_region" class="input_form">
                 <option disabled value="">Добавить регион</option>
-                <option
-                  v-for="region in regions"
-                  :key="region.id"
-                  :value="region.id"
-                >
+                <option v-for="region in regions" :key="region.id" :value="region.id">
                   {{ region.name }}
                 </option>
               </select>
               <label for="file-upload" class="custom-file-upload">
                 Добавить фото
-                <input
-                  id="file-upload"
-                  class="input_file"
-                  type="file"
-                  @change="onFileChange"
-                  multiple
-                />
+                <input id="file-upload" class="input_file" type="file" @change="onFileChange"/>
               </label>
             </div>
             <button class="button_admin_pages" type="submit">Добавить</button>
@@ -104,11 +57,9 @@
     </div>
   </div>
 </template>
-
 <script>
-import { getRegions } from "/src/mixins/getRegions";
-import { getTours } from "/src/mixins/getTours";
-
+import {getRegions} from "/src/mixins/getRegions";
+import {getTours} from "/src/mixins/getTours";
 export default {
   mixins: [getRegions, getTours],
   data() {
@@ -195,7 +146,7 @@ export default {
       }
     },
     inTour(id) {
-      this.$router.push({ name: "AboutTour", params: { id } });
+      this.$router.push({name: "AboutTour", params: {id}});
     },
   },
 };

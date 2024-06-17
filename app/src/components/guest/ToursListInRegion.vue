@@ -9,15 +9,10 @@
             <h4>{{ regionName }}</h4>
           </div>
           <div class="btns">
-            <form
-              @submit.prevent="submitSearch"
-              action=""
-              method="get"
-              class="search_form"
-            >
-              <input v-model="searchQuery" type="text" placeholder="Название" />
+            <form @submit.prevent="submitSearch" method="get" class="search_form">
+              <input v-model="searchQuery" type="text" placeholder="Название"/>
               <button type="submit">
-                <img src="../../assets/images/icon_search.png" />
+                <img src="../../assets/images/icon_search.png"/>
               </button>
             </form>
           </div>
@@ -30,7 +25,7 @@
             <p>В данном регионе пока отстустствуют туры.</p>
           </div>
           <div class="card_tour" v-for="tour in tours" :key="tour.tour.id">
-            <img alt="photo_tour" :src="tour.tour.photo" />
+            <img alt="photo_tour" :src="tour.tour.photo"/>
             <div class="title_card">
               <h4>{{ tour.tour.name }}</h4>
             </div>
@@ -45,9 +40,7 @@
                 <p class="date">{{ tour.tour.date_start }}</p>
                 <p class="price">{{ tour.tour.price }}<span>руб.</span></p>
               </div>
-              <button class="btn_tour" @click="inTour(tour.tour.id)">
-                Узнать больше
-              </button>
+              <button class="btn_tour" @click="inTour(tour.tour.id)">Узнать больше</button>
             </div>
           </div>
         </div>
@@ -56,7 +49,7 @@
   </div>
 </template>
 <script>
-import { getTours, searchTours } from "/src/mixins/getTours"; // подставьте путь к вашему миксину
+import {getTours, searchTours} from "/src/mixins/getTours";
 
 export default {
   mixins: [getTours, searchTours],
@@ -102,7 +95,7 @@ export default {
       }
     },
     inTour(id) {
-      this.$router.push({ name: "aboutTour", params: { id } });
+      this.$router.push({name: "aboutTour", params: {id}});
     },
     async submitSearch() {
       await this.searchTours(this.searchQuery);

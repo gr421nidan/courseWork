@@ -2,7 +2,6 @@
 <template>
   <div class="confirm">
     <div class="confirm_email">Ваша почта была подтверждена!</div>
-    <router-link to="/login">Авторизуйтесь для дальнейшей работы</router-link>
   </div>
 </template>
 <style>
@@ -11,13 +10,13 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  flex-direction: column;
-  gap: 15px;
 }
+
 .confirm a {
   text-decoration: underline;
   font-size: 18px;
 }
+
 .confirm_email {
   border-radius: 60px;
   background-color: #aacae7;

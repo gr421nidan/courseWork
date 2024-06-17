@@ -20,36 +20,24 @@
                 <p>{{ nameRegion }}</p>
                 <p>{{ guide.description }}</p>
               </div>
-              <button
-                @click="deleteGuide(guide.id)"
-                type="submit"
-                class="delete_button"
-              >
-                Удалить
-              </button>
+              <button @click="deleteGuide(guide.id)" type="submit" class="delete_button">Удалить</button>
             </div>
-            <img :src="guide.photo" />
+            <img :src="guide.photo"/>
           </div>
           <div class="guids_update_block">
             <form @submit.prevent="updateGuide" class="guids_create">
               <h2>Редактировать экскурсовода</h2>
               <div>
-                <textarea
-                  class="textarea_form"
-                  v-model="formData.description"
-                  placeholder="Описание"
-                />
+                <textarea class="textarea_form" v-model="formData.description" placeholder="Описание"/>
               </div>
-              <button class="button_admin_pages" type="submit">
-                Сохранить
-              </button>
+              <button class="button_admin_pages" type="submit">Сохранить</button>
             </form>
           </div>
         </div>
         <div class="guid_content_tours">
           <h3>Туры</h3>
           <span v-for="tour in tours" :key="tour.id">
-            <li>{{ tour.name }} с {{tour.date_start}} по {{tour.date_end}}</li>
+            <li>{{ tour.name }} с {{ tour.date_start }} по {{ tour.date_end }}</li>
           </span>
         </div>
       </div>

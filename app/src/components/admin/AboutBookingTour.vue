@@ -40,21 +40,10 @@
           <form @submit.prevent="confirmApplication">
             <h2>Рассмотреть заявку</h2>
             <div>
-              <textarea
-                class="textarea_form"
-                v-model="formData.response"
-                placeholder="Ответ"
-              />
-              <select
-                v-model="formData.id_status_application"
-                class="input_form"
-              >
+              <textarea class="textarea_form" v-model="formData.response" placeholder="Ответ"/>
+              <select v-model="formData.id_status_application" class="input_form">
                 <option disabled value="">Статус</option>
-                <option
-                  v-for="status in status_applications"
-                  :key="status.id"
-                  :value="status.id"
-                >
+                <option v-for="status in status_applications" :key="status.id" :value="status.id">
                   {{ status.status }}
                 </option>
               </select>
